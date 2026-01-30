@@ -1,0 +1,105 @@
+# ============================
+# Python bytecode / cache
+# ============================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ============================
+# Virtual environments
+# ============================
+.env
+.venv
+venv/
+env/
+ENV/
+conda-env/
+optimizacion/
+
+# ============================
+# Jupyter
+# ============================
+.ipynb_checkpoints/
+*.ipynb
+!.keep_notebooks  # opcional si quieres permitir algunos
+
+# ============================
+# Experiment outputs / cache
+# ============================
+cache/
+.cache/
+results/
+outputs/
+runs/
+logs/
+tmp/
+temp/
+artifacts/
+experiments/
+checkpoints/
+
+# ============================
+# Debug / profiling
+# ============================
+*.log
+*.prof
+*.out
+debug/
+profile/
+
+# ============================
+# Data (local / private)
+# ============================
+data/
+datasets/
+*.csv
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.pdf
+
+# ============================
+# Testing / scratch
+# ============================
+tests_local/
+scratch/
+notebooks/
+sandbox/
+drafts/
+
+# ============================
+# IDEs & OS
+# ============================
+.vscode/
+.idea/
+.spyderproject
+.spyderworkspace
+.DS_Store
+Thumbs.db
+
+# ============================
+# Build / packaging
+# ============================
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ============================
+# Coverage / reports
+# ============================
+.coverage
+htmlcov/
+coverage.xml
+
+# ============================
+# Secrets / credentials
+# ============================
+*.env
+*.key
+*.pem
+secrets/
+credentials/

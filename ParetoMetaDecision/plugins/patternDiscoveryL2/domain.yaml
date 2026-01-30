@@ -1,0 +1,153 @@
+problem_id: patternDiscoveryL2
+name: "Outcome-conditioned Pattern Discovery (L2)"
+factory: "plugins.patternDiscoveryL2.problem_factory:make_problem"
+
+data:
+  dataset_yaml: "plugins/inversionL2/dataset.yaml"
+
+context:
+  horizon: 3
+  labeling:
+    scheme: quantile
+    q_up: 0.7
+    q_down: 0.3
+    epsilon_flat: 0.0002
+    classes: ["UP", "DOWN"]
+    min_points_per_class: 20
+    target: "UP"
+  features:
+    k: 1
+    use_spread: true
+    use_delta_imb: true
+
+objectives:
+  - {name: ppv, direction: max}
+  - {name: recall, direction: max}
+  - {name: support, direction: max}
+  - {name: complexity, direction: min}
+
+validation:
+  required_metrics: ["ppv", "recall", "support", "complexity", "utility", "valid"]
+  stability_metrics: ["ppv", "recall", "support", "complexity"]
+  eps: 1e-9
+
+utility:
+  lambda_complexity: 0.01
+  lambda_support: 0.0
+
+# --- Search space: adaptado a NSGA2Optimizer actual ---
+search_space:
+  # Hojas (policies terminales)
+  rules: [imb_gt, imb_lt, dimb_gt, dimb_lt, spread_gt, spread_lt]
+
+  # Composición (si quieres permitir reglas compuestas)
+  compose_ops: ["AND", "OR"]
+
+  # Horizon domain (si lo quieres variable; si no, deja [3])
+  horizon: [3, 5, 7]
+
+  # Dominios por policy (para que _domain_for(f"{policy}.theta") exista)
+  imb_gt.theta:    [0.04, 0.06, 0.08, 0.20]
+  imb_lt.theta:    [0.04, 0.06, 0.08, 0.20]
+  dimb_gt.theta:   [0.04, 0.06, 0.08, 0.20]
+  dimb_lt.theta:   [0.04, 0.06, 0.08, 0.20]
+  spread_gt.theta: [0.04, 0.06, 0.08, 0.20]
+  spread_lt.theta: [0.04, 0.06, 0.08, 0.20]
+
+  # Dominios k por policy (aunque sea fijo) para que NSGA2 no falle
+  imb_gt.k:    [1]
+  imb_lt.k:    [1]
+  dimb_gt.k:   [1]
+  dimb_lt.k:   [1]
+  spread_gt.k: [1]
+  spread_lt.k: [1]
+
+decision_schedule:
+  type: time_grid
+  seconds: 180
+  mode: hold
+
+audit:
+  decision_events:
+    enabled: true
+    mode: best_only   # all | best_only | top_k
+    top_k: 5
+  pattern_events:
+    enabled: true
+
+governance:
+  constraints:
+    min_support: 0.001
+    min_ppv: 0.0
+    min_recall: 0.0
+
+debug:
+  progress_every: 10000
+  schedule: false
+  dataset: false
+
+optimizer:
+  id: grid   # grid | nsga2
+  params:
+    pop_size: 800
+    offspring_size: 800
+    max_generations: 50
+    tournament_k: 2
+    crossover_rate: 0.9
+    mutation_rate: 0.2
+    seed: 0
+    max_depth: 4
+    max_nodes: 15
+
+plot:
+  pareto_axes: ["ppv", "recall"]
+  risk_benefit_axes: ["ev_net", "risk"]
+
+decision_model:
+  enabled: true
+  baseline: abstain   # baseline EV=0
+
+  # Coste fijo por disparo (fees+slippage). 0 si aún no lo modelas.
+  cost_per_signal: 0.0
+
+  # Cómo medir payoff desde datos
+  payoff:
+    type: forward_return
+    horizon_from_context: true   # usa context.horizon
+    success_label: "UP"
+    fail_label: "DOWN"
+
+  # Cómo resumir G/L
+  stats:
+    method: mean   # mean | median
+
+search_refinement:
+  enabled: true
+  every_n_evals: 300              # cada cuántas evaluaciones haces un refinamiento
+  hof_size: 30                    # cuántos guardas como élite
+  focus_top_k: 10                 # cuántos usas para construir regiones
+  strategy: quantile_zoom         # quantile_zoom | gaussian_jitter | grid_local
+  keep_global_prob: 0.20          # prob. de seguir muestreando global (evita overfit)
+  min_points_to_refine: 40        # no refinar si hay pocos válidos
+
+  # Qué métrica define "mejor" (MapA-9: configurable por problema)
+  ranking:
+    mode: pareto_then_utility     # pareto_then_utility | utility_only
+    utility_key: metrics.utility
+    valid_key: metrics.valid
+
+  # Cómo “estrechar” dominios numéricos
+  numeric_zoom:
+    method: topk_quantiles        # topk_quantiles | radius
+    q_low: 0.10
+    q_high: 0.90
+    pad_ratio: 0.10               # añade margen al intervalo (10%)
+    min_unique: 3                 # si quedan <3 valores únicos, no estrechar
+    hard_clip_to_original: true
+
+  # Variables a refinar (si no se pone, se infiere automáticamente)
+  include_keys:
+    - "*.theta"
+  exclude_keys:
+    - "horizon"
+    - "*.k"

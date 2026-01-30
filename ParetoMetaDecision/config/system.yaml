@@ -1,0 +1,10 @@
+system:
+  name: ParetoMetaDecision
+  version: 0.1.0
+
+mode: development
+data:
+    file: data/raw/MES.csv
+optimizer:
+  type: grid     # grid | random | nsga2
+  max_evals: 500

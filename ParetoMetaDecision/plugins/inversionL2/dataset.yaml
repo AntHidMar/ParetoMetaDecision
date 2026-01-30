@@ -1,0 +1,24 @@
+dataset_id: null  # si null, se deriva por hash del yaml o del contenido cargado. Debe ser null para mapA 9
+source:
+  kind: "files"
+  format: "csv"            # aunque la “config” sea YAML, el dataset puede ser CSV/Parquet
+  path: "data/raw/MES_4.csv"
+  #path: "data/raw/NVDA.csv" 
+  read:
+    nrows: 10000
+    parse_dates: ["fecha"]
+    dtype:
+      symbol: str
+
+schema:
+  required_columns:
+    - fecha
+    - symbol
+    - side
+    - position
+    - operation
+    - marketMaker
+    - priceL2
+    - sizeL2
+    - priceL1
+    - sizeL1

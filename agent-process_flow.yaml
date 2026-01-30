@@ -1,0 +1,47 @@
+process_flow:
+  layers:
+
+    data_layer:
+      title: "Capa de Datos (ingestión y representación)"
+      flow:
+        - leer fichero
+        - parsear datos crudos
+        - construir DataFrame base
+        - ordenar y limpiar datos
+        - agrupar por snapshot (symbol, fecha)
+        - vectorizar libro de órdenes
+        - construir representación numérica del estado
+
+    artifact_layer:
+      title: "Capa de Artefactos (precomputación y caché)"
+      flow:
+        - precomputar artefactos reutilizables (p. ej. forward returns)
+        - cachear artefactos
+
+    decision_language_layer:
+      title: "Capa de Decisión – Lenguaje (MapA 6)"
+      flow:
+        - generar espacio de búsqueda de decisiones
+        - construir lenguaje de decisión (AST)
+        - registrar lenguaje (gobernanza)
+
+    context_layer:
+      title: "Capa de Contexto"
+      flow:
+        - generar contexto (horizon, dataset, …)
+        - separar lenguaje y contexto
+
+    optimization_layer:
+      title: "Capa de Optimización"
+      flow:
+        - deduplicar por lenguaje + contexto
+        - evaluar decisión sobre datos
+        - calcular métricas
+        - calcular utilidad
+
+    traceability_layer:
+      title: "Capa de Trazabilidad y Análisis"
+      flow:
+        - registrar evaluación (tracker)
+        - actualizar frontera de Pareto
+        - visualizar resultados en tiempo real

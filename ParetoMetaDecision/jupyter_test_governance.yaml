@@ -1,0 +1,82 @@
+governance:
+  mode: "rules"        # rules | llm (más adelante)
+  objective: "maximize_profit_net_minimize_risk_exposure"
+
+  # Métrica global para decidir "improved"
+  improvement:
+    key: "best_profit_net"
+    min_delta: 1.0e-6
+
+  stagnation:
+    patience_rounds: 2
+
+  # Catálogo (allowlist) de acciones que la IA puede devolver
+  allowed_actions:
+    - "EXPLOIT"
+    - "EXPLORE"
+    - "EXPAND_LANGUAGE"
+    - "STOP"
+
+  # Qué funciones del lenguaje puede activar la IA
+  language:
+    allow_enable: ["SPREAD_LE"]
+    on_enable:
+      clear_caches: true
+
+  # Qué parámetros del algoritmo puede modificar la IA (con rangos)
+  algorithm:
+    allow_tune: ["POP","NGEN","CXPB","MUTPB","ETA_C","ETA_M","INDPB","RESEED_FRAC"]
+    limits:
+      POP:         [40, 400]
+      NGEN:        [10, 200]
+      CXPB:        [0.50, 0.95]
+      MUTPB:       [0.05, 0.60]
+      ETA_C:       [2.0, 30.0]
+      ETA_M:       [2.0, 40.0]
+      INDPB:       [0.02, 0.50]
+      RESEED_FRAC: [0.00, 0.70]
+    pop_cooldown_rounds: 3
+
+  stop:
+      max_stagnation_rounds: 10   # p.ej. parar si 6 rondas seguidas sin mejorar
+
+  # Reglas (en orden). La primera que cumpla se aplica.
+  rules:
+    - name: "stop_on_long_stagnation"
+      when:
+        stagnation_ge: 2
+      do:
+        action: "STOP"
+    - name: "expand_language_on_stagnation"
+      when:
+        stagnation_ge: 2
+        lang_func_disabled: "SPREAD_LE"
+      do:
+        action: "EXPAND_LANGUAGE"
+        enable_lang_funcs: ["SPREAD_LE"]
+        alg_patch:
+          MUTPB: 0.30
+          RESEED_FRAC: 0.30
+          NGEN: 70
+
+    - name: "exploit_on_improve"
+      when:
+        improved: true
+      do:
+        action: "EXPLOIT"
+        alg_patch:
+          MUTPB: 0.20
+          RESEED_FRAC: 0.05
+          NGEN: 60
+
+    - name: "explore_default"
+      when:
+        default: true
+      do:
+        action: "EXPLORE"
+        alg_patch:
+          MUTPB: 0.35
+          RESEED_FRAC: 0.25
+          NGEN: 70
+experiment:
+  seed_base: 123456

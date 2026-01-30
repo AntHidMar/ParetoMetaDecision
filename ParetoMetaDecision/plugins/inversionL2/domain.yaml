@@ -1,0 +1,106 @@
+problem_id: inversionL2
+name: "Investment L2 Order Flow"
+factory: "plugins.inversionL2.problem_factory:make_problem"
+
+data:
+  dataset_yaml: "plugins/inversionL2/dataset.yaml"
+
+context:
+  # otros campos de contexto del plugin (no AST):
+  cost_model: "none"
+  regime: "all"
+
+objectives:
+  - {name: profit, direction: max}
+  - {name: risk, direction: min}
+  - {name: frequency, direction: max}
+
+validation:
+  required_metrics: ["profit", "risk", "frequency"]
+  stability_metrics: ["risk", "frequency"]
+  required_derived_metrics: ["utility"]
+  eps: 1e-9
+  reeval_repeats: 5
+  utility_tolerance_rel: 0.10
+
+utility:
+  lambda_risk: 0.1
+  lambda_frequency: 0.01   # prueba entre 0.01 y 0.2
+  lambda_cost: 0.0
+
+plot:
+  pareto_axes: ["profit", "risk"]  # tambien existe risk
+
+search_space:
+  rules: ["order_imbalance", "absorption"]
+  order_imbalance.theta: [0.001, 0.005, 0.01, 0.02]
+  order_imbalance.k: [1,2,3,4]
+  absorption.theta: [0.001, 0.005, 0.01, 0.02]
+  absorption.k: [1,2,3,4,5,6]
+  horizon: [1,2,3,4,5,10,20,30,40,50]
+  compose_ops: ["AND","OR"]
+   # --- NUEVO: gates transversales ---
+  gate.trend.enabled: [true, false]
+  gate.trend.n: [2,3,4,5,6,8]
+  gate.trend.strict: [true, false]
+
+  gate.sell.enabled: [true, false]
+  gate.sell.delta: [0.05, 0.10, 0.20, 0.25, 0.30]
+
+  gate.imbalance.enabled: true
+  gate.imbalance.delta: 0.25
+  gate.imbalance.mode: abs     # abs => |imb| >= delta
+
+decision_schedule:
+  type: time_grid
+  seconds: 180
+  mode: hold   # sample | hold
+
+audit:
+  decision_events:
+    enabled: true
+    mode: best_only   # all | best_only | top_k
+    top_k: 5          # solo si mode=top_k
+  pattern_events:
+    enabled: true
+debug:
+  schedule: false
+  dataset: false
+  gates: true
+
+optimizer:
+  id: grid   # grid | nsga2
+  params:
+    pop_size: 800
+    offspring_size: 800
+    max_generations: 50
+    tournament_k: 2
+    crossover_rate: 0.9
+    mutation_rate: 0.2
+    seed: 0
+
+    # MapA-7: límites lenguaje/estructura (si aplica)
+    max_depth: 4
+    max_nodes: 15
+
+  audit:
+    enabled: true
+    record_fields: [candidate_id, parent_ids, operator, generation, rng_digest]
+
+decision_model:
+  enabled: true
+  baseline: abstain   # baseline EV=0
+
+  # Coste fijo por disparo (fees+slippage). 0 si aún no lo modelas.
+  cost_per_signal: 0.0
+
+  # Cómo medir payoff desde datos
+  payoff:
+    type: forward_return
+    horizon_from_context: true   # usa context.horizon
+    success_label: "UP"
+    fail_label: "DOWN"
+
+  # Cómo resumir G/L
+  stats:
+    method: mean   # mean | median

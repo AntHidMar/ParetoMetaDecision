@@ -1,0 +1,238 @@
+project:
+  name: ParetoMetaDecision
+  version: 0.1.0
+  status: research_framework
+  target_level_mapA: 9
+  article_level_mapA: 8
+  design_principle: >
+    Maintain strict generality (core domain-agnostic) and a clean separation
+    between decision language and evaluation context, so that later MapA 9
+    governance policies (promotion, rollback, auditing, controlled evolution)
+    remain consistent and non-invasive.
+  lineage:
+    previous:
+      - ParetoInvest
+    next_planned:
+      - ParetoMeta9
+      - ParetoMetaAbstraction
+
+purpose:
+  core_goal: >
+    Design and analyze robust, interpretable, and profitable decision rules
+    using multi-objective optimization and Pareto-based meta-decision analysis,
+    with explicit human control over the decision language.
+  validation_principle: >
+    Economic profitability is used as an empirical falsification test of
+    decision quality, not as a blind optimization objective.
+  philosophy: >
+    Optimize the process of deciding, not only the decision outcome.
+    The system assists the human decision-maker by revealing structure,
+    stability, limits, and conditions of validity.
+
+scope:
+  included:
+    - parameter_definition
+    - configuration_exploration
+    - manual_rule_definition
+    - rule_composition
+    - operator_exploration
+    - multiobjective_evaluation
+    - pareto_front_analysis
+    - multi_context_comparison
+    - temporal_robustness_analysis
+    - human_system_decision_support
+  explicitly_excluded:
+    - automatic_rule_discovery
+    - autonomous_language_generation
+    - fully automated decision making
+
+mapA_levels:
+  level_0:
+    name: fixed_rules
+    description: >
+      Hard-coded, non-optimized decision rules.
+    support: false
+
+  level_1:
+    name: parametric_optimization
+    description: >
+      Continuous and discrete parameter tuning within predefined ranges.
+    support: true
+    examples:
+      - threshold_values
+      - horizons
+      - delays
+
+  level_2:
+    name: configuration_search
+    description: >
+      Exploration and comparison of parameter configurations as coherent units.
+    support: true
+    examples:
+      - parameter_sets
+      - regime_specific_configs
+
+  level_3:
+    name: rule_definition
+    description: >
+      Explicit, human-defined, interpretable decision rules.
+    support: true
+    constraints:
+      - no_black_box_models
+      - semantic_clarity_required
+
+  level_4:
+    name: composite_rules
+    description: >
+      Combination of rules using logical operators.
+    support: true
+    examples:
+      - AND
+      - OR
+      - NOT
+
+  level_5:
+    name: structured_rule_systems
+    description: >
+      Hierarchical and conditional rule systems, including regime-dependent logic.
+    support: true
+
+  level_6:
+    name: multiobjective_optimization
+    description: >
+      Evaluation of decisions under multiple conflicting objectives using Pareto fronts.
+    support: true
+    objectives:
+      - profitability
+      - win_rate
+      - frequency
+      - risk
+      - stability
+
+  level_7:
+    name: decision_process_optimization
+    description: >
+      Optimization of how decisions are selected, compared, and validated.
+    support: true
+    focus:
+      - robustness
+      - sensitivity
+      - tradeoff_structure
+
+  level_8:
+    name: human_system_optimization
+    description: >
+      Explicit optimization of the interaction between the system and the human
+      decision-maker, providing guidance, confidence, and abstention signals.
+    support: true
+    system_role:
+      - explain
+      - compare
+      - contextualize
+      - warn
+      - assist
+
+    level_9:
+    name: meta_decision_and_language_governance
+    description: >
+      Meta-governance layer where the system optimizes not only decisions,
+      but the rules governing how decisions and decision languages evolve
+      over time, across contexts, and under explicit policies.
+
+    support: true
+
+    core_capabilities:
+      - governance_of_decision_language
+      - governed_language_evolution
+      - longitudinal_comparison_across_contexts
+      - auditability_and_accountability
+      - rollback_and_policy_revision
+
+    language_evolution:
+      allowed: true
+      mode: governed
+      description: >
+        Evolution of the decision language is permitted only through explicit
+        governance mechanisms. Language changes are treated as decisions
+        themselves and are subject to evaluation, approval, auditing, and rollback.
+      requirements:
+        - explicit_promotion_policies
+        - shadow_evaluation_before_activation
+        - versioned_language_registry
+        - human_or_policy_based_approval
+        - full_audit_trail
+        - reversible_changes (rollback)
+
+    governance_mechanisms:
+      language_states:
+        - draft
+        - candidate
+        - approved
+        - deprecated
+        - banned
+      promotion_criteria:
+        - consistent utility improvement across contexts
+        - interpretability constraints satisfied
+        - stability over time (no short-term overfitting)
+      demotion_criteria:
+        - detected drift
+        - degradation in utility or robustness
+        - policy violations
+
+    explicitly_excluded:
+      - unguided_autonomous_language_mutation
+      - irreversible_language_changes
+      - hidden_language_updates_without_registry
+
+decision_language:
+  rule_components:
+    parameters:
+      - thresholds
+      - windows
+      - delays
+    operators:
+      logical:
+        - AND
+        - OR
+        - NOT
+      comparison:
+        - >
+        - <
+        - >=
+        - <=
+      temporal:
+        - persistence
+        - sequence
+        - regime_conditioning
+  generation_mode: human_defined
+  evolution_mode: manual_exploration
+
+evaluation:
+  methodology:
+    - multiobjective_metrics
+    - pareto_fronts
+    - cross_temporal_comparison
+    - cross_context_comparison
+  robustness_tests:
+    - temporal_invariance
+    - parameter_sensitivity
+    - regime_dependence
+  empirical_anchor:
+    - realized_profitability
+
+system_character:
+  interpretability: mandatory
+  automation_level: assisted_decision
+  human_role: final_decision_maker
+  scientific_positioning: >
+    Decision science and optimization framework,
+    not an automated trading system.
+
+intended_outcomes:
+  - identification_of_robust_decision_regions
+  - understanding_when_decisions_work_or_fail
+  - support_for_confident_human_decisions
+  - foundation_for_future_meta_levels
+
+flujo_proceso:
+  - Datos -> Estados -> Reglas -> Decisiones -> Resultados -> Pareto -> Política (decidir / no decidir) -> Explicación -> Humano mejorado -> (feedback)

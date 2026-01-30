@@ -1,0 +1,2872 @@
+{
+  "root": "C:\\Datos\\EspacioTrabajoAnaconda\\___Doctorado\\ParetoMetaDecision\\ParetoMetaDecision",
+  "excluded": [
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    ".pytest_cache",
+    "dist",
+    "build",
+    "node_modules",
+    ".mypy_cache",
+    ".ruff_cache",
+    "cache",
+    "outputs",
+    "artifacts"
+  ],
+  "summary": [
+    {
+      "level": 0,
+      "name": "Reglas fijas",
+      "score": 1.0,
+      "found_weight": 1.0,
+      "max_weight": 1.0,
+      "evidences": 28,
+      "missing": [],
+      "top_anchors": [
+        {
+          "evidence_id": "fixed_rule_policy",
+          "weight": 0.35,
+          "found": true,
+          "examples": [
+            {
+              "file": "core\\optimizer copy.py",
+              "line": 53,
+              "anchor": "\\bpolicy\\b",
+              "snippet": "if p.get(\"policy\") not in (\"AND\", \"OR\"):"
+            },
+            {
+              "file": "core\\optimizer copy.py",
+              "line": 64,
+              "anchor": "\\bpolicy\\b",
+              "snippet": "out = {\"policy\": p[\"policy\"], \"left\": left, \"right\": right}"
+            }
+          ]
+        },
+        {
+          "evidence_id": "single_run_eval",
+          "weight": 0.35,
+          "found": true,
+          "examples": [
+            {
+              "file": "main copy.py",
+              "line": 20,
+              "anchor": "evaluate\\(",
+              "snippet": "return problem.evaluate(params)"
+            },
+            {
+              "file": "main.py",
+              "line": 28,
+              "anchor": "evaluate\\(",
+              "snippet": "return problem.evaluate(params, ctx)"
+            }
+          ]
+        },
+        {
+          "evidence_id": "domain_yaml_presence",
+          "weight": 0.3,
+          "found": true,
+          "examples": [
+            {
+              "file": "plugins\\inversionL2\\domain.yaml",
+              "line": 1,
+              "anchor": "problem_id:",
+              "snippet": "problem_id: inversionL2"
+            },
+            {
+              "file": "plugins\\inversionL2\\domain.yaml",
+              "line": 3,
+              "anchor": "factory:",
+              "snippet": "factory: \"plugins.inversionL2.problem_factory:make_problem\""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 1,
+      "name": "Optimización paramétrica",
+      "score": 1.0,
+      "found_weight": 1.0,
+      "max_weight": 1.0,
+      "evidences": 20,
+      "missing": [],
+      "top_anchors": [
+        {
+          "evidence_id": "grid_or_random",
+          "weight": 0.5,
+          "found": true,
+          "examples": [
+            {
+              "file": "core\\optimizer copy.py",
+              "line": 8,
+              "anchor": "\\bGridSearch\\b",
+              "snippet": "#from core.optimizers.grid import GridSearch"
+            },
+            {
+              "file": "core\\optimizer.py",
+              "line": 8,
+              "anchor": "\\bGridSearch\\b",
+              "snippet": "#from core.optimizers.grid import GridSearch"
+            }
+          ]
+        },
+        {
+          "evidence_id": "search_space_flat",
+          "weight": 0.5,
+          "found": true,
+          "examples": [
+            {
+              "file": "plugins\\inversionL2\\domain.yaml",
+              "line": 34,
+              "anchor": "search_space:",
+              "snippet": "search_space:"
+            },
+            {
+              "file": "plugins\\inversionL2\\domain.yaml",
+              "line": 36,
+              "anchor": "\\.theta",
+              "snippet": "order_imbalance.theta: [0.001, 0.005, 0.01, 0.02]"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "name": "Reglas compuestas (plantillas)",
+      "score": 1.0,
+      "found_weight": 1.0,
+      "max_weight": 1.0,
+      "evidences": 20,
+      "missing": [],
+      "top_anchors": [
+        {
+          "evidence_id": "compose_ops",
+          "weight": 0.45,
+          "found": true,
+          "examples": [
+            {
+              "file": "plugins\\inversionL2\\domain.yaml",
+              "line": 41,
+              "anchor": "\\bAND\\b",
+              "snippet": "compose_ops: [\"AND\",\"OR\"]"
+            },
+            {
+              "file": "plugins\\inversionL2\\domain.yaml",
+              "line": 41,
+              "anchor": "\\bOR\\b",
+              "snippet": "compose_ops: [\"AND\",\"OR\"]"
+            }
+          ]
+        },
+        {
+          "evidence_id": "combine_logic_in_eval",
+          "weight": 0.55,
+          "found": true,
+          "examples": [
+            {
+              "file": "core\\governance\\decision_schedule.py",
+              "line": 46,
+              "anchor": "apply_decision_mode_tri",
+              "snippet": "def apply_decision_mode_tri(raw_signal: np.ndarray, gate: np.ndarray, mode: DecisionMode) -> np.ndarray:"
+            },
+            {
+              "file": "plugins\\inversionL2\\evaluator.py",
+              "line": 74,
+              "anchor": "if pol in \\(\\s*\\\"AND\\\"\\s*,\\s*\\\"OR\\\"\\s*\\)",
+              "snippet": "if pol in (\"AND\", \"OR\"):"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "name": "Descubrimiento automático de reglas (AST)",
+      "score": 1.0,
+      "found_weight": 1.0,
+      "max_weight": 1.0,
+      "evidences": 30,
+      "missing": [],
+      "top_anchors": [
+        {
+          "evidence_id": "ast_nodes",
+          "weight": 0.4,
+          "found": true,
+          "examples": [
+            {
+              "file": "core\\optimizer copy.py",
+              "line": 176,
+              "anchor": "canonical",
+              "snippet": "if children[0].canonical_key() == children[1].canonical_key():"
+            },
+            {
+              "file": "core\\optimizer copy.py",
+              "line": 181,
+              "anchor": "canonical",
+              "snippet": "language_key = ast.canonical_key()"
+            }
+          ]
+        },
+        {
+          "evidence_id": "ast_generation_or_sampling",
+          "weight": 0.35,
+          "found": true,
+          "examples": [
+            {
+              "file": "generar_arbol_jerarquia.py",
+              "line": 59,
+              "anchor": "max_depth",
+              "snippet": "def build_tree(root: Path, max_depth: int | None = None) -> str:"
+            },
+            {
+              "file": "generar_arbol_jerarquia.py",
+              "line": 67,
+              "anchor": "max_depth",
+              "snippet": "if max_depth is not None and depth > max_depth:"
+            }
+          ]
+        },
+        {
+          "evidence_id": "params_policy_left_right",
+          "weight": 0.25,
+          "found": true,
+          "examples": [
+            {
+              "file": "core\\optimizer copy.py",
+              "line": 53,
+              "anchor": "\\\"policy\\\"",
+              "snippet": "if p.get(\"policy\") not in (\"AND\", \"OR\"):"
+            },
+            {
+              "file": "core\\optimizer copy.py",
+              "line": 64,
+              "anchor": "\\\"policy\\\"",
+              "snippet": "out = {\"policy\": p[\"policy\"], \"left\": left, \"right\": right}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "name": "Multiobjetivo y Pareto",
+      "score": 1.0,
+      "found_weight": 1.0,
+      "max_weight": 1.0,
+      "evidences": 30,
+      "missing": [],
+      "top_anchors": [
+        {
+          "evidence_id": "pareto_front",
+          "weight": 0.4,
+          "found": true,
+          "examples": [
+            {
+              "file": "main copy.py",
+              "line": 23,
+              "anchor": "pareto",
+              "snippet": "def verify_optimization(evaluated: list, best: dict, problem: Problem, domain_cfg: dict, pareto_axes: tuple) -> None:"
+            },
+            {
+              "file": "main copy.py",
+              "line": 94,
+              "anchor": "pareto",
+              "snippet": "pareto_axes = tuple(domain_cfg.get(\"plot\", {}).get(\"pareto_axes\", (\"utility\", \"utility\")))"
+            }
+          ]
+        },
+        {
+          "evidence_id": "nsga2_or_moea",
+          "weight": 0.4,
+          "found": true,
+          "examples": [
+            {
+              "file": "core\\generation\\discovery_guided.py",
+              "line": 14,
+              "anchor": "mutation_rate",
+              "snippet": "mutation_rate: float = 1.0        # 1 mutación por candidato (no usado como prob; reservado)"
+            },
+            {
+              "file": "core\\optimizers\\factory.py",
+              "line": 9,
+              "anchor": "NSGA2",
+              "snippet": "from core.optimizers.nsga2 import NSGA2Optimizer"
+            }
+          ]
+        },
+        {
+          "evidence_id": "objectives_yaml",
+          "weight": 0.2,
+          "found": true,
+          "examples": [
+            {
+              "file": "plugins\\inversionL2\\domain.yaml",
+              "line": 13,
+              "anchor": "objectives:",
+              "snippet": "objectives:"
+            },
+            {
+              "file": "plugins\\inversionL2\\domain.yaml",
+              "line": 14,
+              "anchor": "direction:\\s*(min|max)",
+              "snippet": "- {name: profit, direction: max}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 5,
+      "name": "Acto de decidir (abstención, costes, scheduling)",
+      "score": 1.0,
+      "found_weight": 1.0,
+      "max_weight": 1.0,
+      "evidences": 30,
+      "missing": [],
+      "top_anchors": [
+        {
+          "evidence_id": "abstain_or_hold_sample",
+          "weight": 0.35,
+          "found": true,
+          "examples": [
+            {
+              "file": "main.py",
+              "line": 263,
+              "anchor": "\\bsample\\b",
+              "snippet": "print(\"DEBUG eval(params0) sample =\", {k: m0.get(k) for k in (\"profit\", \"risk\", \"frequency\", \"utility\") if k in m0})"
+            },
+            {
+              "file": "main.py",
+              "line": 324,
+              "anchor": "\\bsample\\b",
+              "snippet": "print(\"utilities sample =\", [e.get(\"utility\") for e in evaluated[:10]])"
+            }
+          ]
+        },
+        {
+          "evidence_id": "cost_model",
+          "weight": 0.35,
+          "found": true,
+          "examples": [
+            {
+              "file": "main copy.py",
+              "line": 98,
+              "anchor": "lambda_cost",
+              "snippet": "lambda_cost=float(u.get(\"lambda_cost\", 0.0)),"
+            },
+            {
+              "file": "main.py",
+              "line": 250,
+              "anchor": "lambda_cost",
+              "snippet": "lambda_cost=float(u.get(\"lambda_cost\", 0.0)),"
+            }
+          ]
+        },
+        {
+          "evidence_id": "exposure_frequency_metrics",
+          "weight": 0.3,
+          "found": true,
+          "examples": [
+            {
+              "file": "main copy.py",
+              "line": 29,
+              "anchor": "\\bfrequency\\b",
+              "snippet": "3) re-eval determinista del best (coincidencia en mean_return/frequency)"
+            },
+            {
+              "file": "main.py",
+              "line": 263,
+              "anchor": "\\bfrequency\\b",
+              "snippet": "print(\"DEBUG eval(params0) sample =\", {k: m0.get(k) for k in (\"profit\", \"risk\", \"frequency\", \"utility\") if k in m0})"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 6,
+      "name": "Optimización del lenguaje (parsimony/constraints)",
+      "score": 1.0,
+      "found_weight": 1.0,
+      "max_weight": 1.0,
+      "evidences": 30,
+      "missing": [],
+      "top_anchors": [
+        {
+          "evidence_id": "complexity_metric",
+          "weight": 0.35,
+          "found": true,
+          "examples": [
+            {
+              "file": "main copy.py",
+              "line": 30,
+              "anchor": "dedup",
+              "snippet": "4) no hay params duplicados evaluados (dedup efectivo)"
+            },
+            {
+              "file": "main copy.py",
+              "line": 74,
+              "anchor": "dedup",
+              "snippet": "assert len(sigs) == len(set(sigs)), \"Hay params duplicados evaluados (dedup no funciona o no está activo)\""
+            }
+          ]
+        },
+        {
+          "evidence_id": "governance_constraints",
+          "weight": 0.35,
+          "found": true,
+          "examples": [
+            {
+              "file": "main.py",
+              "line": 89,
+              "anchor": "governance",
+              "snippet": "\"governance_violation\","
+            },
+            {
+              "file": "main.py",
+              "line": 99,
+              "anchor": "governance",
+              "snippet": "# - governance_violation: puede haber métricas calculadas, pero se rechaza por política"
+            }
+          ]
+        },
+        {
+          "evidence_id": "canonicalization_commutative",
+          "weight": 0.3,
+          "found": true,
+          "examples": [
+            {
+              "file": "generar_arbol_jerarquia.py",
+              "line": 78,
+              "anchor": "sort",
+              "snippet": "entries.sort(key=lambda p: (not p.is_dir(), p.name.lower()))"
+            },
+            {
+              "file": "generar_arbol_jerarquia_detallado.py",
+              "line": 100,
+              "anchor": "sort",
+              "snippet": "entries.sort(key=lambda p: (not p.is_dir(), p.name.lower()))"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 7,
+      "name": "Explicabilidad como objetivo",
+      "score": 1.0,
+      "found_weight": 1.0,
+      "max_weight": 1.0,
+      "evidences": 15,
+      "missing": [],
+      "top_anchors": [
+        {
+          "evidence_id": "explainability_objective",
+          "weight": 0.5,
+          "found": true,
+          "examples": [
+            {
+              "file": "core\\optimizer copy.py",
+              "line": 20,
+              "anchor": "interpret",
+              "snippet": "interpretability_metrics,"
+            },
+            {
+              "file": "core\\optimizer copy.py",
+              "line": 183,
+              "anchor": "interpret",
+              "snippet": "interp = interpretability_metrics(ast)"
+            }
+          ]
+        },
+        {
+          "evidence_id": "objective_complexity",
+          "weight": 0.5,
+          "found": true,
+          "examples": [
+            {
+              "file": "plugins\\patternDiscoveryL2\\domain.yaml",
+              "line": 27,
+              "anchor": "name:\\s*complexity",
+              "snippet": "- {name: complexity, direction: min}"
+            },
+            {
+              "file": "tools\\mapa_audit.py",
+              "line": 142,
+              "anchor": "objective.*complexity",
+              "snippet": "{\"id\": \"objective_complexity\", \"weight\": 0.50,"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 8,
+      "name": "Humano–sistema (HITL)",
+      "score": 1.0,
+      "found_weight": 1.0,
+      "max_weight": 1.0,
+      "evidences": 15,
+      "missing": [],
+      "top_anchors": [
+        {
+          "evidence_id": "human_in_loop",
+          "weight": 0.6,
+          "found": true,
+          "examples": [
+            {
+              "file": "core\\decision_language\\ast.py",
+              "line": 28,
+              "anchor": "human",
+              "snippet": "Deterministic human-readable representation for hover/logs."
+            },
+            {
+              "file": "core\\decision_language\\ast.py",
+              "line": 42,
+              "anchor": "human",
+              "snippet": "Leaf node: a human-defined policy with parameters."
+            }
+          ]
+        },
+        {
+          "evidence_id": "interactive_or_ui",
+          "weight": 0.4,
+          "found": true,
+          "examples": [
+            {
+              "file": "tools\\mapa_audit.py",
+              "line": 153,
+              "anchor": "dashboard",
+              "snippet": "\"patterns\": [r\"dashboard\", r\"\\bui\\b\", r\"streamlit\", r\"\\bdash\\b\", r\"gradio\", r\"webapp\"],"
+            },
+            {
+              "file": "tools\\mapa_audit.py",
+              "line": 155,
+              "anchor": "dashboard",
+              "snippet": "\"hint\": \"Falta interfaz (dashboard/UI) para interacción humana.\"},"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 9,
+      "name": "Meta-decisiones y gobernanza operativa",
+      "score": 0.25,
+      "found_weight": 0.6,
+      "max_weight": 1.0,
+      "evidences": 30,
+      "missing": [
+        {
+          "evidence_id": "audit_artifacts_present",
+          "weight": 0.4,
+          "hint": "No se encontraron artefactos de auditoría en cache/audit/** (decision_events/pattern_events).",
+          "expected_globs": [],
+          "patterns": []
+        }
+      ],
+      "top_anchors": [
+        {
+          "evidence_id": "audit_artifacts_present",
+          "weight": 0.4,
+          "found": false,
+          "examples": []
+        },
+        {
+          "evidence_id": "strong_identity",
+          "weight": 0.25,
+          "found": true,
+          "examples": [
+            {
+              "file": "core\\artifacts\\hash.py",
+              "line": 16,
+              "anchor": "sha256\\(",
+              "snippet": "return hashlib.sha256(s.encode(\"utf-8\")).hexdigest()"
+            },
+            {
+              "file": "core\\artifacts\\hash.py",
+              "line": 20,
+              "anchor": "sha256\\(",
+              "snippet": "return hashlib.sha256(b).hexdigest()"
+            }
+          ]
+        },
+        {
+          "evidence_id": "governance_gate_reason",
+          "weight": 0.2,
+          "found": true,
+          "examples": [
+            {
+              "file": "core\\contracts_decision_audit.py",
+              "line": 9,
+              "anchor": "BLOCKED_BY_",
+              "snippet": "BLOCKED_BY_SCHEDULE: Final[str] = \"BLOCKED_BY_SCHEDULE\""
+            },
+            {
+              "file": "core\\contracts_decision_audit.py",
+              "line": 7,
+              "anchor": "ALLOWED_",
+              "snippet": "ALLOWED_FIRE: Final[str] = \"ALLOWED_FIRE\""
+            }
+          ]
+        },
+        {
+          "evidence_id": "lifecycle_ops",
+          "weight": 0.15,
+          "found": true,
+          "examples": [
+            {
+              "file": "core\\contracts.py",
+              "line": 7,
+              "anchor": "\\bfrozen\\b",
+              "snippet": "@dataclass(frozen=True)"
+            },
+            {
+              "file": "core\\contracts.py",
+              "line": 16,
+              "anchor": "\\bfrozen\\b",
+              "snippet": "@dataclass(frozen=True)"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "evidences": [
+    {
+      "mapa_level": 0,
+      "evidence_id": "fixed_rule_policy",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 53,
+      "anchor": "\\bpolicy\\b",
+      "snippet": "if p.get(\"policy\") not in (\"AND\", \"OR\"):"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "fixed_rule_policy",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 64,
+      "anchor": "\\bpolicy\\b",
+      "snippet": "out = {\"policy\": p[\"policy\"], \"left\": left, \"right\": right}"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "fixed_rule_policy",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 72,
+      "anchor": "\\bpolicy\\b",
+      "snippet": "Usa el formato compuesto (policy + left/right dict) que soporta params_to_ast."
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "fixed_rule_policy",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 74,
+      "anchor": "\\bpolicy\\b",
+      "snippet": "p = params.get(\"policy\")"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "fixed_rule_policy",
+      "weight": 0.35,
+      "file": "core\\optimizer.py",
+      "line": 54,
+      "anchor": "\\bpolicy\\b",
+      "snippet": "if p.get(\"policy\") not in (\"AND\", \"OR\"):"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "fixed_rule_policy",
+      "weight": 0.35,
+      "file": "core\\optimizer.py",
+      "line": 65,
+      "anchor": "\\bpolicy\\b",
+      "snippet": "out = {\"policy\": p[\"policy\"], \"left\": left, \"right\": right}"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "fixed_rule_policy",
+      "weight": 0.35,
+      "file": "core\\optimizer.py",
+      "line": 73,
+      "anchor": "\\bpolicy\\b",
+      "snippet": "Usa el formato compuesto (policy + left/right dict) que soporta params_to_ast."
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "fixed_rule_policy",
+      "weight": 0.35,
+      "file": "core\\optimizer.py",
+      "line": 75,
+      "anchor": "\\bpolicy\\b",
+      "snippet": "p = params.get(\"policy\")"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "fixed_rule_policy",
+      "weight": 0.35,
+      "file": "core\\plotting.py",
+      "line": 47,
+      "anchor": "\\brule\\b",
+      "snippet": "title=\"Price evolution with rule events\""
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "fixed_rule_policy",
+      "weight": 0.35,
+      "file": "core\\decision_language\\adapter.py",
+      "line": 27,
+      "anchor": "\\bpolicy\\b",
+      "snippet": "policy = rule_params[\"policy\"]"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "single_run_eval",
+      "weight": 0.35,
+      "file": "main copy.py",
+      "line": 20,
+      "anchor": "evaluate\\(",
+      "snippet": "return problem.evaluate(params)"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "single_run_eval",
+      "weight": 0.35,
+      "file": "main.py",
+      "line": 28,
+      "anchor": "evaluate\\(",
+      "snippet": "return problem.evaluate(params, ctx)"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "single_run_eval",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 224,
+      "anchor": "evaluate\\(",
+      "snippet": "m = problem.evaluate(params, ctx)"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "single_run_eval",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 228,
+      "anchor": "evaluate\\(",
+      "snippet": "raise TypeError(\"problem.evaluate(params) must return a dict of metrics\")"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "single_run_eval",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 155,
+      "anchor": "evaluate_one",
+      "snippet": "def evaluate_one(params: dict, *, origin: str, _pareto_axes=pareto_axes) -> bool:"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "single_run_eval",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 331,
+      "anchor": "evaluate_one",
+      "snippet": "evaluate_one(params, origin=getattr(optimizer, \"id\", optimizer.__class__.__name__))"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "single_run_eval",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 346,
+      "anchor": "evaluate_one",
+      "snippet": "evaluate_one(params, origin=\"discovery_guided\")"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "single_run_eval",
+      "weight": 0.35,
+      "file": "core\\optimizer.py",
+      "line": 241,
+      "anchor": "evaluate\\(",
+      "snippet": "m = problem.evaluate(params, ctx)"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "single_run_eval",
+      "weight": 0.35,
+      "file": "core\\optimizer.py",
+      "line": 257,
+      "anchor": "evaluate\\(",
+      "snippet": "raise TypeError(\"problem.evaluate(params) must return a dict of metrics\")"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "single_run_eval",
+      "weight": 0.35,
+      "file": "core\\optimizer.py",
+      "line": 171,
+      "anchor": "evaluate_one",
+      "snippet": "def evaluate_one(params: dict, *, origin: str, _pareto_axes=pareto_axes) -> bool:"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "domain_yaml_presence",
+      "weight": 0.3,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 1,
+      "anchor": "problem_id:",
+      "snippet": "problem_id: inversionL2"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "domain_yaml_presence",
+      "weight": 0.3,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 3,
+      "anchor": "factory:",
+      "snippet": "factory: \"plugins.inversionL2.problem_factory:make_problem\""
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "domain_yaml_presence",
+      "weight": 0.3,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 34,
+      "anchor": "search_space:",
+      "snippet": "search_space:"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "domain_yaml_presence",
+      "weight": 0.3,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 13,
+      "anchor": "objectives:",
+      "snippet": "objectives:"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "domain_yaml_presence",
+      "weight": 0.3,
+      "file": "plugins\\patternDiscoveryL2\\domain.yaml",
+      "line": 1,
+      "anchor": "problem_id:",
+      "snippet": "problem_id: patternDiscoveryL2"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "domain_yaml_presence",
+      "weight": 0.3,
+      "file": "plugins\\patternDiscoveryL2\\domain.yaml",
+      "line": 3,
+      "anchor": "factory:",
+      "snippet": "factory: \"plugins.patternDiscoveryL2.problem_factory:make_problem\""
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "domain_yaml_presence",
+      "weight": 0.3,
+      "file": "plugins\\patternDiscoveryL2\\domain.yaml",
+      "line": 39,
+      "anchor": "search_space:",
+      "snippet": "search_space:"
+    },
+    {
+      "mapa_level": 0,
+      "evidence_id": "domain_yaml_presence",
+      "weight": 0.3,
+      "file": "plugins\\patternDiscoveryL2\\domain.yaml",
+      "line": 23,
+      "anchor": "objectives:",
+      "snippet": "objectives:"
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "grid_or_random",
+      "weight": 0.5,
+      "file": "core\\optimizer copy.py",
+      "line": 8,
+      "anchor": "\\bGridSearch\\b",
+      "snippet": "#from core.optimizers.grid import GridSearch"
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "grid_or_random",
+      "weight": 0.5,
+      "file": "core\\optimizer.py",
+      "line": 8,
+      "anchor": "\\bGridSearch\\b",
+      "snippet": "#from core.optimizers.grid import GridSearch"
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "grid_or_random",
+      "weight": 0.5,
+      "file": "core\\decision_language\\adapter.py",
+      "line": 42,
+      "anchor": "\\bGridSearch\\b",
+      "snippet": "# (1) Formato compuesto del GridSearch actual: policy=AND/OR + left/right dict"
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "grid_or_random",
+      "weight": 0.5,
+      "file": "core\\generation\\combinatorial.py",
+      "line": 11,
+      "anchor": "\\bGridSearch\\b",
+      "snippet": "Wrapper del generador combinatorio existente (p.ej. GridSearch)."
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "grid_or_random",
+      "weight": 0.5,
+      "file": "core\\generation\\discovery_guided.py",
+      "line": 4,
+      "anchor": "\\brandom\\b",
+      "snippet": "import random"
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "grid_or_random",
+      "weight": 0.5,
+      "file": "core\\generation\\discovery_guided.py",
+      "line": 32,
+      "anchor": "\\brandom\\b",
+      "snippet": "self.rng = random.Random(cfg.seed)"
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "grid_or_random",
+      "weight": 0.5,
+      "file": "core\\generation\\discovery_guided.py",
+      "line": 53,
+      "anchor": "\\brandom\\b",
+      "snippet": "if self.rng.random() < self.cfg.p_lift_to_compound:"
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "grid_or_random",
+      "weight": 0.5,
+      "file": "core\\optimizers\\factory.py",
+      "line": 7,
+      "anchor": "\\bGridSearch\\b",
+      "snippet": "from core.optimizers.grid import GridSearch"
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "grid_or_random",
+      "weight": 0.5,
+      "file": "core\\optimizers\\factory.py",
+      "line": 26,
+      "anchor": "\\bGridSearch\\b",
+      "snippet": "return GridSearch("
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "grid_or_random",
+      "weight": 0.5,
+      "file": "core\\optimizers\\factory.py",
+      "line": 8,
+      "anchor": "\\brandom\\b",
+      "snippet": "from core.optimizers.random import RandomSearch"
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "search_space_flat",
+      "weight": 0.5,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 34,
+      "anchor": "search_space:",
+      "snippet": "search_space:"
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "search_space_flat",
+      "weight": 0.5,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 36,
+      "anchor": "\\.theta",
+      "snippet": "order_imbalance.theta: [0.001, 0.005, 0.01, 0.02]"
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "search_space_flat",
+      "weight": 0.5,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 38,
+      "anchor": "\\.theta",
+      "snippet": "absorption.theta: [0.001, 0.005, 0.01, 0.02]"
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "search_space_flat",
+      "weight": 0.5,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 37,
+      "anchor": "\\.k",
+      "snippet": "order_imbalance.k: [1,2,3,4]"
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "search_space_flat",
+      "weight": 0.5,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 39,
+      "anchor": "\\.k",
+      "snippet": "absorption.k: [1,2,3,4]"
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "search_space_flat",
+      "weight": 0.5,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 40,
+      "anchor": "\\bhorizon\\b",
+      "snippet": "horizon: [1,2,3,4,5,10,20,30]"
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "search_space_flat",
+      "weight": 0.5,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 88,
+      "anchor": "\\bhorizon\\b",
+      "snippet": "horizon_from_context: true   # usa context.horizon"
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "search_space_flat",
+      "weight": 0.5,
+      "file": "plugins\\patternDiscoveryL2\\domain.yaml",
+      "line": 39,
+      "anchor": "search_space:",
+      "snippet": "search_space:"
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "search_space_flat",
+      "weight": 0.5,
+      "file": "plugins\\patternDiscoveryL2\\domain.yaml",
+      "line": 49,
+      "anchor": "\\.theta",
+      "snippet": "# Dominios por policy (para que _domain_for(f\"{policy}.theta\") exista)"
+    },
+    {
+      "mapa_level": 1,
+      "evidence_id": "search_space_flat",
+      "weight": 0.5,
+      "file": "plugins\\patternDiscoveryL2\\domain.yaml",
+      "line": 50,
+      "anchor": "\\.theta",
+      "snippet": "imb_gt.theta:    [0.04, 0.06, 0.08, 0.20]"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "compose_ops",
+      "weight": 0.45,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 41,
+      "anchor": "\\bAND\\b",
+      "snippet": "compose_ops: [\"AND\",\"OR\"]"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "compose_ops",
+      "weight": 0.45,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 41,
+      "anchor": "\\bOR\\b",
+      "snippet": "compose_ops: [\"AND\",\"OR\"]"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "compose_ops",
+      "weight": 0.45,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 41,
+      "anchor": "compose_ops",
+      "snippet": "compose_ops: [\"AND\",\"OR\"]"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "compose_ops",
+      "weight": 0.45,
+      "file": "plugins\\patternDiscoveryL2\\domain.yaml",
+      "line": 44,
+      "anchor": "\\bAND\\b",
+      "snippet": "compose_ops: [\"AND\", \"OR\"]"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "compose_ops",
+      "weight": 0.45,
+      "file": "plugins\\patternDiscoveryL2\\domain.yaml",
+      "line": 44,
+      "anchor": "\\bOR\\b",
+      "snippet": "compose_ops: [\"AND\", \"OR\"]"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "compose_ops",
+      "weight": 0.45,
+      "file": "plugins\\patternDiscoveryL2\\domain.yaml",
+      "line": 44,
+      "anchor": "compose_ops",
+      "snippet": "compose_ops: [\"AND\", \"OR\"]"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "compose_ops",
+      "weight": 0.45,
+      "file": "core\\optimization_tracker.py",
+      "line": 19,
+      "anchor": "\\bAND\\b",
+      "snippet": "Logs any parameter dictionary, including nested/composed rules (AND/OR)"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "compose_ops",
+      "weight": 0.45,
+      "file": "core\\optimization_tracker.py",
+      "line": 19,
+      "anchor": "\\bOR\\b",
+      "snippet": "Logs any parameter dictionary, including nested/composed rules (AND/OR)"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "compose_ops",
+      "weight": 0.45,
+      "file": "core\\optimizer copy.py",
+      "line": 43,
+      "anchor": "\\bAND\\b",
+      "snippet": "\"compose_ops\": [\"AND\", \"OR\"],"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "compose_ops",
+      "weight": 0.45,
+      "file": "core\\optimizer copy.py",
+      "line": 53,
+      "anchor": "\\bAND\\b",
+      "snippet": "if p.get(\"policy\") not in (\"AND\", \"OR\"):"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "combine_logic_in_eval",
+      "weight": 0.55,
+      "file": "core\\governance\\decision_schedule.py",
+      "line": 46,
+      "anchor": "apply_decision_mode_tri",
+      "snippet": "def apply_decision_mode_tri(raw_signal: np.ndarray, gate: np.ndarray, mode: DecisionMode) -> np.ndarray:"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "combine_logic_in_eval",
+      "weight": 0.55,
+      "file": "plugins\\inversionL2\\evaluator.py",
+      "line": 74,
+      "anchor": "if pol in \\(\\s*\\\"AND\\\"\\s*,\\s*\\\"OR\\\"\\s*\\)",
+      "snippet": "if pol in (\"AND\", \"OR\"):"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "combine_logic_in_eval",
+      "weight": 0.55,
+      "file": "plugins\\inversionL2\\evaluator.py",
+      "line": 81,
+      "anchor": "both\\s*=\\s*\\(",
+      "snippet": "both = (left != 0.0) & (right != 0.0)"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "combine_logic_in_eval",
+      "weight": 0.55,
+      "file": "plugins\\inversionL2\\evaluator.py",
+      "line": 90,
+      "anchor": "conflict",
+      "snippet": "# si conflicto (sum=0 con ambos no 0) queda 0"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "combine_logic_in_eval",
+      "weight": 0.55,
+      "file": "plugins\\inversionL2\\evaluator.py",
+      "line": 12,
+      "anchor": "apply_decision_mode_tri",
+      "snippet": "from core.governance.decision_schedule import DecisionScheduler, TimeGridSchedule, apply_decision_mode_tri"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "combine_logic_in_eval",
+      "weight": 0.55,
+      "file": "plugins\\inversionL2\\evaluator.py",
+      "line": 264,
+      "anchor": "apply_decision_mode_tri",
+      "snippet": "signal = apply_decision_mode_tri(raw_signal=raw_signal, gate=gate, mode=schedule.mode)"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "combine_logic_in_eval",
+      "weight": 0.55,
+      "file": "plugins\\patternDiscoveryL2\\evaluator.py",
+      "line": 150,
+      "anchor": "if pol in \\(\\s*\\\"AND\\\"\\s*,\\s*\\\"OR\\\"\\s*\\)",
+      "snippet": "if pol in (\"AND\", \"OR\"):"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "combine_logic_in_eval",
+      "weight": 0.55,
+      "file": "plugins\\patternDiscoveryL2\\evaluator.py",
+      "line": 9,
+      "anchor": "apply_decision_mode_tri",
+      "snippet": "from core.governance.decision_schedule import DecisionScheduler, TimeGridSchedule, apply_decision_mode_tri"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "combine_logic_in_eval",
+      "weight": 0.55,
+      "file": "tools\\mapa_audit.py",
+      "line": 77,
+      "anchor": "conflict",
+      "snippet": "\"patterns\": [r\"if pol in \\(\\s*\\\"AND\\\"\\s*,\\s*\\\"OR\\\"\\s*\\)\", r\"both\\s*=\\s*\\(\", r\"conflict\", r\"apply_decision_mode_tri\"],"
+    },
+    {
+      "mapa_level": 2,
+      "evidence_id": "combine_logic_in_eval",
+      "weight": 0.55,
+      "file": "tools\\mapa_audit.py",
+      "line": 77,
+      "anchor": "apply_decision_mode_tri",
+      "snippet": "\"patterns\": [r\"if pol in \\(\\s*\\\"AND\\\"\\s*,\\s*\\\"OR\\\"\\s*\\)\", r\"both\\s*=\\s*\\(\", r\"conflict\", r\"apply_decision_mode_tri\"],"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_nodes",
+      "weight": 0.4,
+      "file": "core\\optimizer copy.py",
+      "line": 176,
+      "anchor": "canonical",
+      "snippet": "if children[0].canonical_key() == children[1].canonical_key():"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_nodes",
+      "weight": 0.4,
+      "file": "core\\optimizer copy.py",
+      "line": 181,
+      "anchor": "canonical",
+      "snippet": "language_key = ast.canonical_key()"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_nodes",
+      "weight": 0.4,
+      "file": "core\\optimizer.py",
+      "line": 192,
+      "anchor": "canonical",
+      "snippet": "if children[0].canonical_key() == children[1].canonical_key():"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_nodes",
+      "weight": 0.4,
+      "file": "core\\optimizer.py",
+      "line": 197,
+      "anchor": "canonical",
+      "snippet": "language_key = ast.canonical_key()"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_nodes",
+      "weight": 0.4,
+      "file": "core\\snapshot.py",
+      "line": 8,
+      "anchor": "class\\s+Or",
+      "snippet": "class OrderBookSnapshot:"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_nodes",
+      "weight": 0.4,
+      "file": "core\\decision_language\\ast.py",
+      "line": 40,
+      "anchor": "class\\s+Atom",
+      "snippet": "class Atom(Node):"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_nodes",
+      "weight": 0.4,
+      "file": "core\\decision_language\\ast.py",
+      "line": 70,
+      "anchor": "class\\s+And",
+      "snippet": "class And(Node):"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_nodes",
+      "weight": 0.4,
+      "file": "core\\decision_language\\ast.py",
+      "line": 99,
+      "anchor": "class\\s+Or",
+      "snippet": "class Or(Node):"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_nodes",
+      "weight": 0.4,
+      "file": "core\\decision_language\\ast.py",
+      "line": 19,
+      "anchor": "canonical",
+      "snippet": "def canonical_key(self) -> str:"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_nodes",
+      "weight": 0.4,
+      "file": "core\\decision_language\\ast.py",
+      "line": 52,
+      "anchor": "canonical",
+      "snippet": "def canonical_key(self) -> str:"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_generation_or_sampling",
+      "weight": 0.35,
+      "file": "generar_arbol_jerarquia.py",
+      "line": 59,
+      "anchor": "max_depth",
+      "snippet": "def build_tree(root: Path, max_depth: int | None = None) -> str:"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_generation_or_sampling",
+      "weight": 0.35,
+      "file": "generar_arbol_jerarquia.py",
+      "line": 67,
+      "anchor": "max_depth",
+      "snippet": "if max_depth is not None and depth > max_depth:"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_generation_or_sampling",
+      "weight": 0.35,
+      "file": "generar_arbol_jerarquia.py",
+      "line": 127,
+      "anchor": "max_depth",
+      "snippet": "tree_str = build_tree(root_path, max_depth=args.max_depth)"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_generation_or_sampling",
+      "weight": 0.35,
+      "file": "generar_arbol_jerarquia_detallado.py",
+      "line": 89,
+      "anchor": "max_depth",
+      "snippet": "def build_tree(root: Path, max_depth: int | None = None) -> str:"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_generation_or_sampling",
+      "weight": 0.35,
+      "file": "generar_arbol_jerarquia_detallado.py",
+      "line": 96,
+      "anchor": "max_depth",
+      "snippet": "if max_depth is not None and depth > max_depth:"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_generation_or_sampling",
+      "weight": 0.35,
+      "file": "generar_arbol_jerarquia_detallado.py",
+      "line": 352,
+      "anchor": "max_depth",
+      "snippet": "def collect_context(root: Path, max_depth: Optional[int], max_file_chars: int) -> Dict[str, Any]:"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_generation_or_sampling",
+      "weight": 0.35,
+      "file": "generar_arbol_jerarquia_detallado.py",
+      "line": 356,
+      "anchor": "max_depth",
+      "snippet": "tree_str = build_tree(root, max_depth=max_depth)"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_generation_or_sampling",
+      "weight": 0.35,
+      "file": "generar_arbol_jerarquia_detallado.py",
+      "line": 494,
+      "anchor": "max_depth",
+      "snippet": "tree_str = build_tree(root_path, max_depth=args.max_depth)"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_generation_or_sampling",
+      "weight": 0.35,
+      "file": "generar_arbol_jerarquia_detallado.py",
+      "line": 503,
+      "anchor": "max_depth",
+      "snippet": "ctx = collect_context(root_path, max_depth=args.max_depth, max_file_chars=args.max_file_chars)"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "ast_generation_or_sampling",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 153,
+      "anchor": "max_depth",
+      "snippet": "constraints = LanguageConstraints(max_depth=2, max_size=7)"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "params_policy_left_right",
+      "weight": 0.25,
+      "file": "core\\optimizer copy.py",
+      "line": 53,
+      "anchor": "\\\"policy\\\"",
+      "snippet": "if p.get(\"policy\") not in (\"AND\", \"OR\"):"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "params_policy_left_right",
+      "weight": 0.25,
+      "file": "core\\optimizer copy.py",
+      "line": 64,
+      "anchor": "\\\"policy\\\"",
+      "snippet": "out = {\"policy\": p[\"policy\"], \"left\": left, \"right\": right}"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "params_policy_left_right",
+      "weight": 0.25,
+      "file": "core\\optimizer copy.py",
+      "line": 74,
+      "anchor": "\\\"policy\\\"",
+      "snippet": "p = params.get(\"policy\")"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "params_policy_left_right",
+      "weight": 0.25,
+      "file": "core\\optimizer copy.py",
+      "line": 57,
+      "anchor": "\\\"left\\\"",
+      "snippet": "if isinstance(p.get(\"left\"), dict) and isinstance(p.get(\"right\"), dict):"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "params_policy_left_right",
+      "weight": 0.25,
+      "file": "core\\optimizer copy.py",
+      "line": 64,
+      "anchor": "\\\"left\\\"",
+      "snippet": "out = {\"policy\": p[\"policy\"], \"left\": left, \"right\": right}"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "params_policy_left_right",
+      "weight": 0.25,
+      "file": "core\\optimizer copy.py",
+      "line": 77,
+      "anchor": "\\\"left\\\"",
+      "snippet": "left = params.get(\"left\")"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "params_policy_left_right",
+      "weight": 0.25,
+      "file": "core\\optimizer copy.py",
+      "line": 57,
+      "anchor": "\\\"right\\\"",
+      "snippet": "if isinstance(p.get(\"left\"), dict) and isinstance(p.get(\"right\"), dict):"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "params_policy_left_right",
+      "weight": 0.25,
+      "file": "core\\optimizer copy.py",
+      "line": 64,
+      "anchor": "\\\"right\\\"",
+      "snippet": "out = {\"policy\": p[\"policy\"], \"left\": left, \"right\": right}"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "params_policy_left_right",
+      "weight": 0.25,
+      "file": "core\\optimizer copy.py",
+      "line": 78,
+      "anchor": "\\\"right\\\"",
+      "snippet": "right = params.get(\"right\")"
+    },
+    {
+      "mapa_level": 3,
+      "evidence_id": "params_policy_left_right",
+      "weight": 0.25,
+      "file": "core\\optimizer.py",
+      "line": 54,
+      "anchor": "\\\"policy\\\"",
+      "snippet": "if p.get(\"policy\") not in (\"AND\", \"OR\"):"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "pareto_front",
+      "weight": 0.4,
+      "file": "main copy.py",
+      "line": 23,
+      "anchor": "pareto",
+      "snippet": "def verify_optimization(evaluated: list, best: dict, problem: Problem, domain_cfg: dict, pareto_axes: tuple) -> None:"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "pareto_front",
+      "weight": 0.4,
+      "file": "main copy.py",
+      "line": 94,
+      "anchor": "pareto",
+      "snippet": "pareto_axes = tuple(domain_cfg.get(\"plot\", {}).get(\"pareto_axes\", (\"utility\", \"utility\")))"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "pareto_front",
+      "weight": 0.4,
+      "file": "main copy.py",
+      "line": 113,
+      "anchor": "pareto",
+      "snippet": "pareto_axes=pareto_axes,"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "pareto_front",
+      "weight": 0.4,
+      "file": "main copy.py",
+      "line": 130,
+      "anchor": "pareto",
+      "snippet": "pareto_axes=pareto_axes,"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "pareto_front",
+      "weight": 0.4,
+      "file": "main copy.py",
+      "line": 134,
+      "anchor": "pareto",
+      "snippet": "xk, yk = pareto_axes"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "pareto_front",
+      "weight": 0.4,
+      "file": "main.py",
+      "line": 37,
+      "anchor": "pareto",
+      "snippet": "pareto_axes: tuple,"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "pareto_front",
+      "weight": 0.4,
+      "file": "main.py",
+      "line": 246,
+      "anchor": "pareto",
+      "snippet": "pareto_axes = tuple(domain_cfg.get(\"plot\", {}).get(\"pareto_axes\", (\"utility\", \"utility\")))"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "pareto_front",
+      "weight": 0.4,
+      "file": "main.py",
+      "line": 274,
+      "anchor": "pareto",
+      "snippet": "pareto_axes=pareto_axes,"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "pareto_front",
+      "weight": 0.4,
+      "file": "main.py",
+      "line": 291,
+      "anchor": "pareto",
+      "snippet": "pareto_axes=pareto_axes,"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "pareto_front",
+      "weight": 0.4,
+      "file": "main.py",
+      "line": 295,
+      "anchor": "pareto",
+      "snippet": "xk, yk = pareto_axes"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "nsga2_or_moea",
+      "weight": 0.4,
+      "file": "core\\generation\\discovery_guided.py",
+      "line": 14,
+      "anchor": "mutation_rate",
+      "snippet": "mutation_rate: float = 1.0        # 1 mutación por candidato (no usado como prob; reservado)"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "nsga2_or_moea",
+      "weight": 0.4,
+      "file": "core\\optimizers\\factory.py",
+      "line": 9,
+      "anchor": "NSGA2",
+      "snippet": "from core.optimizers.nsga2 import NSGA2Optimizer"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "nsga2_or_moea",
+      "weight": 0.4,
+      "file": "core\\optimizers\\factory.py",
+      "line": 45,
+      "anchor": "NSGA2",
+      "snippet": "return NSGA2Optimizer("
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "nsga2_or_moea",
+      "weight": 0.4,
+      "file": "core\\optimizers\\factory.py",
+      "line": 51,
+      "anchor": "tournament_k",
+      "snippet": "tournament_k=int(params.get(\"tournament_k\", 2)),"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "nsga2_or_moea",
+      "weight": 0.4,
+      "file": "core\\optimizers\\factory.py",
+      "line": 52,
+      "anchor": "crossover_rate",
+      "snippet": "crossover_rate=float(params.get(\"crossover_rate\", 0.9)),"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "nsga2_or_moea",
+      "weight": 0.4,
+      "file": "core\\optimizers\\factory.py",
+      "line": 53,
+      "anchor": "mutation_rate",
+      "snippet": "mutation_rate=float(params.get(\"mutation_rate\", 0.2)),"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "nsga2_or_moea",
+      "weight": 0.4,
+      "file": "core\\optimizers\\factory.py",
+      "line": 50,
+      "anchor": "offspring_size",
+      "snippet": "offspring_size=int(params.get(\"offspring_size\", 80)),"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "nsga2_or_moea",
+      "weight": 0.4,
+      "file": "core\\optimizers\\nsga2.py",
+      "line": 63,
+      "anchor": "NSGA2",
+      "snippet": "class NSGA2Optimizer:"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "nsga2_or_moea",
+      "weight": 0.4,
+      "file": "core\\optimizers\\nsga2.py",
+      "line": 79,
+      "anchor": "tournament_k",
+      "snippet": "tournament_k: int = 2,"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "nsga2_or_moea",
+      "weight": 0.4,
+      "file": "core\\optimizers\\nsga2.py",
+      "line": 91,
+      "anchor": "tournament_k",
+      "snippet": "self.tournament_k = int(tournament_k)"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "objectives_yaml",
+      "weight": 0.2,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 13,
+      "anchor": "objectives:",
+      "snippet": "objectives:"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "objectives_yaml",
+      "weight": 0.2,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 14,
+      "anchor": "direction:\\s*(min|max)",
+      "snippet": "- {name: profit, direction: max}"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "objectives_yaml",
+      "weight": 0.2,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 15,
+      "anchor": "direction:\\s*(min|max)",
+      "snippet": "- {name: risk, direction: min}"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "objectives_yaml",
+      "weight": 0.2,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 16,
+      "anchor": "direction:\\s*(min|max)",
+      "snippet": "- {name: frequency, direction: max}"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "objectives_yaml",
+      "weight": 0.2,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 14,
+      "anchor": "name:\\s*(profit|risk|ppv|recall|utility)",
+      "snippet": "- {name: profit, direction: max}"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "objectives_yaml",
+      "weight": 0.2,
+      "file": "plugins\\inversionL2\\domain.yaml",
+      "line": 15,
+      "anchor": "name:\\s*(profit|risk|ppv|recall|utility)",
+      "snippet": "- {name: risk, direction: min}"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "objectives_yaml",
+      "weight": 0.2,
+      "file": "plugins\\patternDiscoveryL2\\domain.yaml",
+      "line": 23,
+      "anchor": "objectives:",
+      "snippet": "objectives:"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "objectives_yaml",
+      "weight": 0.2,
+      "file": "plugins\\patternDiscoveryL2\\domain.yaml",
+      "line": 24,
+      "anchor": "direction:\\s*(min|max)",
+      "snippet": "- {name: ppv, direction: max}"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "objectives_yaml",
+      "weight": 0.2,
+      "file": "plugins\\patternDiscoveryL2\\domain.yaml",
+      "line": 25,
+      "anchor": "direction:\\s*(min|max)",
+      "snippet": "- {name: recall, direction: max}"
+    },
+    {
+      "mapa_level": 4,
+      "evidence_id": "objectives_yaml",
+      "weight": 0.2,
+      "file": "plugins\\patternDiscoveryL2\\domain.yaml",
+      "line": 26,
+      "anchor": "direction:\\s*(min|max)",
+      "snippet": "- {name: support, direction: max}"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "abstain_or_hold_sample",
+      "weight": 0.35,
+      "file": "main.py",
+      "line": 263,
+      "anchor": "\\bsample\\b",
+      "snippet": "print(\"DEBUG eval(params0) sample =\", {k: m0.get(k) for k in (\"profit\", \"risk\", \"frequency\", \"utility\") if k in m0})"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "abstain_or_hold_sample",
+      "weight": 0.35,
+      "file": "main.py",
+      "line": 324,
+      "anchor": "\\bsample\\b",
+      "snippet": "print(\"utilities sample =\", [e.get(\"utility\") for e in evaluated[:10]])"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "abstain_or_hold_sample",
+      "weight": 0.35,
+      "file": "core\\contracts_decision_audit.py",
+      "line": 10,
+      "anchor": "ABSTAIN",
+      "snippet": "FORCED_ABSTAIN_GUARDRAIL: Final[str] = \"FORCED_ABSTAIN_GUARDRAIL\""
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "abstain_or_hold_sample",
+      "weight": 0.35,
+      "file": "core\\live_pareto_plot.py",
+      "line": 206,
+      "anchor": "\\bsample\\b",
+      "snippet": "#print(\"Available cols sample:\", [c for c in df.columns if c.startswith(\"metrics.\")][:20])"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "abstain_or_hold_sample",
+      "weight": 0.35,
+      "file": "core\\decision_models\\baselines.py",
+      "line": 8,
+      "anchor": "ABSTAIN",
+      "snippet": "\"label\": \"ABSTAIN\","
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "abstain_or_hold_sample",
+      "weight": 0.35,
+      "file": "core\\governance\\decision_schedule.py",
+      "line": 10,
+      "anchor": "\\bhold\\b",
+      "snippet": "DecisionMode = Literal[\"sample\", \"hold\"]"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "abstain_or_hold_sample",
+      "weight": 0.35,
+      "file": "core\\governance\\decision_schedule.py",
+      "line": 16,
+      "anchor": "\\bhold\\b",
+      "snippet": "mode: DecisionMode = \"hold\""
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "abstain_or_hold_sample",
+      "weight": 0.35,
+      "file": "core\\governance\\decision_schedule.py",
+      "line": 52,
+      "anchor": "\\bhold\\b",
+      "snippet": "- hold: actualiza estado en gate=True; mantiene último estado fuera de gate"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "abstain_or_hold_sample",
+      "weight": 0.35,
+      "file": "core\\governance\\decision_schedule.py",
+      "line": 64,
+      "anchor": "\\bhold\\b",
+      "snippet": "if mode == \"hold\":"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "abstain_or_hold_sample",
+      "weight": 0.35,
+      "file": "core\\governance\\decision_schedule.py",
+      "line": 10,
+      "anchor": "\\bsample\\b",
+      "snippet": "DecisionMode = Literal[\"sample\", \"hold\"]"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "cost_model",
+      "weight": 0.35,
+      "file": "main copy.py",
+      "line": 98,
+      "anchor": "lambda_cost",
+      "snippet": "lambda_cost=float(u.get(\"lambda_cost\", 0.0)),"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "cost_model",
+      "weight": 0.35,
+      "file": "main.py",
+      "line": 250,
+      "anchor": "lambda_cost",
+      "snippet": "lambda_cost=float(u.get(\"lambda_cost\", 0.0)),"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "cost_model",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 96,
+      "anchor": "lambda_cost",
+      "snippet": "utility_spec = UtilitySpec(lambda_cost=0.0)"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "cost_model",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 245,
+      "anchor": "lambda_cost",
+      "snippet": "lambda_cost = float(getattr(utility_spec, \"lambda_cost\", 0.0)) if utility_spec else 0.0"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "cost_model",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 248,
+      "anchor": "lambda_cost",
+      "snippet": "m[\"utility\"] = float(m[\"profit\"]) - lambda_risk * float(m[\"risk\"]) - lambda_cost * float(m[\"frequency\"])"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "cost_model",
+      "weight": 0.35,
+      "file": "core\\optimizer.py",
+      "line": 112,
+      "anchor": "lambda_cost",
+      "snippet": "utility_spec = UtilitySpec(lambda_cost=0.0)"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "cost_model",
+      "weight": 0.35,
+      "file": "core\\optimizer.py",
+      "line": 274,
+      "anchor": "lambda_cost",
+      "snippet": "lambda_cost = float(getattr(utility_spec, \"lambda_cost\", 0.0)) if utility_spec else 0.0"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "cost_model",
+      "weight": 0.35,
+      "file": "core\\optimizer.py",
+      "line": 277,
+      "anchor": "lambda_cost",
+      "snippet": "m[\"utility\"] = float(m[\"profit\"]) - lambda_risk * float(m[\"risk\"]) - lambda_cost * float(m[\"frequency\"])"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "cost_model",
+      "weight": 0.35,
+      "file": "core\\utility.py",
+      "line": 8,
+      "anchor": "lambda_cost",
+      "snippet": "lambda_cost: float = 0.0"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "cost_model",
+      "weight": 0.35,
+      "file": "core\\utility.py",
+      "line": 28,
+      "anchor": "lambda_cost",
+      "snippet": "return float((profit / (risk + eps)) - spec.lambda_cost * frequency)"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "exposure_frequency_metrics",
+      "weight": 0.3,
+      "file": "main copy.py",
+      "line": 29,
+      "anchor": "\\bfrequency\\b",
+      "snippet": "3) re-eval determinista del best (coincidencia en mean_return/frequency)"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "exposure_frequency_metrics",
+      "weight": 0.3,
+      "file": "main.py",
+      "line": 263,
+      "anchor": "\\bfrequency\\b",
+      "snippet": "print(\"DEBUG eval(params0) sample =\", {k: m0.get(k) for k in (\"profit\", \"risk\", \"frequency\", \"utility\") if k in m0})"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "exposure_frequency_metrics",
+      "weight": 0.3,
+      "file": "core\\contracts.py",
+      "line": 10,
+      "anchor": "\\bfrequency\\b",
+      "snippet": "frequency: float"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "exposure_frequency_metrics",
+      "weight": 0.3,
+      "file": "core\\live_pareto_plot.py",
+      "line": 42,
+      "anchor": "\\bfrequency\\b",
+      "snippet": "axes = (\"frequency\", \"mean_return\")"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "exposure_frequency_metrics",
+      "weight": 0.3,
+      "file": "core\\optimizer copy.py",
+      "line": 234,
+      "anchor": "\\bfrequency\\b",
+      "snippet": "if \"mean_return\" in m and \"frequency\" in m:"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "exposure_frequency_metrics",
+      "weight": 0.3,
+      "file": "core\\optimizer copy.py",
+      "line": 239,
+      "anchor": "\\bfrequency\\b",
+      "snippet": "frequency=m[\"frequency\"],"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "exposure_frequency_metrics",
+      "weight": 0.3,
+      "file": "core\\optimizer copy.py",
+      "line": 243,
+      "anchor": "\\bfrequency\\b",
+      "snippet": "elif \"profit\" in m and \"risk\" in m and \"frequency\" in m:"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "exposure_frequency_metrics",
+      "weight": 0.3,
+      "file": "core\\optimizer copy.py",
+      "line": 248,
+      "anchor": "\\bfrequency\\b",
+      "snippet": "m[\"utility\"] = float(m[\"profit\"]) - lambda_risk * float(m[\"risk\"]) - lambda_cost * float(m[\"frequency\"])"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "exposure_frequency_metrics",
+      "weight": 0.3,
+      "file": "core\\optimizer.py",
+      "line": 263,
+      "anchor": "\\bfrequency\\b",
+      "snippet": "if \"mean_return\" in m and \"frequency\" in m:"
+    },
+    {
+      "mapa_level": 5,
+      "evidence_id": "exposure_frequency_metrics",
+      "weight": 0.3,
+      "file": "core\\optimizer.py",
+      "line": 268,
+      "anchor": "\\bfrequency\\b",
+      "snippet": "frequency=m[\"frequency\"],"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "complexity_metric",
+      "weight": 0.35,
+      "file": "main copy.py",
+      "line": 30,
+      "anchor": "dedup",
+      "snippet": "4) no hay params duplicados evaluados (dedup efectivo)"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "complexity_metric",
+      "weight": 0.35,
+      "file": "main copy.py",
+      "line": 74,
+      "anchor": "dedup",
+      "snippet": "assert len(sigs) == len(set(sigs)), \"Hay params duplicados evaluados (dedup no funciona o no está activo)\""
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "complexity_metric",
+      "weight": 0.35,
+      "file": "main.py",
+      "line": 45,
+      "anchor": "dedup",
+      "snippet": "4) no hay params duplicados evaluados (dedup efectivo)"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "complexity_metric",
+      "weight": 0.35,
+      "file": "main.py",
+      "line": 214,
+      "anchor": "dedup",
+      "snippet": "assert len(sigs) == len(set(sigs)), \"Hay params duplicados evaluados (dedup no funciona o hay append duplicado)\""
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "complexity_metric",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 137,
+      "anchor": "dedup",
+      "snippet": "n_skipped_dedup = 0"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "complexity_metric",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 156,
+      "anchor": "dedup",
+      "snippet": "nonlocal skipped, n_generated, n_evaluated, n_eval, n_skipped_dedup"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "complexity_metric",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 216,
+      "anchor": "dedup",
+      "snippet": "dedup_key = f\"{language_key}:{ctx_key}\""
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "complexity_metric",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 217,
+      "anchor": "dedup",
+      "snippet": "if dedup_key in seen:"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "complexity_metric",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 219,
+      "anchor": "dedup",
+      "snippet": "n_skipped_dedup += 1"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "complexity_metric",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 221,
+      "anchor": "dedup",
+      "snippet": "seen.add(dedup_key)"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "governance_constraints",
+      "weight": 0.35,
+      "file": "main.py",
+      "line": 89,
+      "anchor": "governance",
+      "snippet": "\"governance_violation\","
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "governance_constraints",
+      "weight": 0.35,
+      "file": "main.py",
+      "line": 99,
+      "anchor": "governance",
+      "snippet": "# - governance_violation: puede haber métricas calculadas, pero se rechaza por política"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "governance_constraints",
+      "weight": 0.35,
+      "file": "main.py",
+      "line": 106,
+      "anchor": "governance",
+      "snippet": "elif reason == \"governance_violation\":"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "governance_constraints",
+      "weight": 0.35,
+      "file": "main.py",
+      "line": 109,
+      "anchor": "governance",
+      "snippet": "assert \"support\" in m, f\"Falta support en governance_violation evaluated[{i}]\""
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "governance_constraints",
+      "weight": 0.35,
+      "file": "main.py",
+      "line": 89,
+      "anchor": "violation",
+      "snippet": "\"governance_violation\","
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "governance_constraints",
+      "weight": 0.35,
+      "file": "main.py",
+      "line": 99,
+      "anchor": "violation",
+      "snippet": "# - governance_violation: puede haber métricas calculadas, pero se rechaza por política"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "governance_constraints",
+      "weight": 0.35,
+      "file": "main.py",
+      "line": 106,
+      "anchor": "violation",
+      "snippet": "elif reason == \"governance_violation\":"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "governance_constraints",
+      "weight": 0.35,
+      "file": "main.py",
+      "line": 109,
+      "anchor": "violation",
+      "snippet": "assert \"support\" in m, f\"Falta support en governance_violation evaluated[{i}]\""
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "governance_constraints",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 146,
+      "anchor": "violation",
+      "snippet": "\"violations_counts\": defaultdict(int),"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "governance_constraints",
+      "weight": 0.35,
+      "file": "core\\optimizer copy.py",
+      "line": 182,
+      "anchor": "violation",
+      "snippet": "violations = validate_language(ast, constraints)"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "canonicalization_commutative",
+      "weight": 0.3,
+      "file": "generar_arbol_jerarquia.py",
+      "line": 78,
+      "anchor": "sort",
+      "snippet": "entries.sort(key=lambda p: (not p.is_dir(), p.name.lower()))"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "canonicalization_commutative",
+      "weight": 0.3,
+      "file": "generar_arbol_jerarquia_detallado.py",
+      "line": 100,
+      "anchor": "sort",
+      "snippet": "entries.sort(key=lambda p: (not p.is_dir(), p.name.lower()))"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "canonicalization_commutative",
+      "weight": 0.3,
+      "file": "generar_arbol_jerarquia_detallado.py",
+      "line": 368,
+      "anchor": "sort",
+      "snippet": "def sort_key(x: Dict[str, Any]) -> Tuple[int, str]:"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "canonicalization_commutative",
+      "weight": 0.3,
+      "file": "generar_arbol_jerarquia_detallado.py",
+      "line": 380,
+      "anchor": "sort",
+      "snippet": "files.sort(key=sort_key)"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "canonicalization_commutative",
+      "weight": 0.3,
+      "file": "main copy.py",
+      "line": 73,
+      "anchor": "sort",
+      "snippet": "sigs = [json.dumps(x[\"params\"], sort_keys=True, ensure_ascii=False) for x in evaluated]"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "canonicalization_commutative",
+      "weight": 0.3,
+      "file": "main.py",
+      "line": 212,
+      "anchor": "sort",
+      "snippet": "sigs.append(json.dumps(x[\"params\"], sort_keys=True, ensure_ascii=False))"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "canonicalization_commutative",
+      "weight": 0.3,
+      "file": "core\\contracts.py",
+      "line": 26,
+      "anchor": "sort",
+      "snippet": "return json.dumps(self.params, sort_keys=True, ensure_ascii=False)"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "canonicalization_commutative",
+      "weight": 0.3,
+      "file": "core\\live_pareto_plot.py",
+      "line": 156,
+      "anchor": "sort",
+      "snippet": "#print(df.groupby([\"profit\",\"risk\"]).size().sort_values(ascending=False).head(10))"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "canonicalization_commutative",
+      "weight": 0.3,
+      "file": "core\\optimization_tracker.py",
+      "line": 29,
+      "anchor": "sort",
+      "snippet": "\"params_json\": json.dumps(params, sort_keys=True, ensure_ascii=False),"
+    },
+    {
+      "mapa_level": 6,
+      "evidence_id": "canonicalization_commutative",
+      "weight": 0.3,
+      "file": "core\\optimizer copy.py",
+      "line": 176,
+      "anchor": "canonical",
+      "snippet": "if children[0].canonical_key() == children[1].canonical_key():"
+    },
+    {
+      "mapa_level": 7,
+      "evidence_id": "explainability_objective",
+      "weight": 0.5,
+      "file": "core\\optimizer copy.py",
+      "line": 20,
+      "anchor": "interpret",
+      "snippet": "interpretability_metrics,"
+    },
+    {
+      "mapa_level": 7,
+      "evidence_id": "explainability_objective",
+      "weight": 0.5,
+      "file": "core\\optimizer copy.py",
+      "line": 183,
+      "anchor": "interpret",
+      "snippet": "interp = interpretability_metrics(ast)"
+    },
+    {
+      "mapa_level": 7,
+      "evidence_id": "explainability_objective",
+      "weight": 0.5,
+      "file": "core\\optimizer.py",
+      "line": 20,
+      "anchor": "interpret",
+      "snippet": "interpretability_metrics,"
+    },
+    {
+      "mapa_level": 7,
+      "evidence_id": "explainability_objective",
+      "weight": 0.5,
+      "file": "core\\optimizer.py",
+      "line": 199,
+      "anchor": "interpret",
+      "snippet": "interp = interpretability_metrics(ast)"
+    },
+    {
+      "mapa_level": 7,
+      "evidence_id": "explainability_objective",
+      "weight": 0.5,
+      "file": "core\\decision_language\\constraints.py",
+      "line": 14,
+      "anchor": "interpret",
+      "snippet": "def interpretability_metrics(ast: AstNode) -> Dict[str, Any]:"
+    },
+    {
+      "mapa_level": 7,
+      "evidence_id": "explainability_objective",
+      "weight": 0.5,
+      "file": "plugins\\patternDiscoveryL2\\evaluator.py",
+      "line": 388,
+      "anchor": "interpret",
+      "snippet": "# NUEVO: conteos absolutos (MapA-9, interpretabilidad)"
+    },
+    {
+      "mapa_level": 7,
+      "evidence_id": "explainability_objective",
+      "weight": 0.5,
+      "file": "tools\\mapa_audit.py",
+      "line": 138,
+      "anchor": "explain",
+      "snippet": "{\"id\": \"explainability_objective\", \"weight\": 0.50,"
+    },
+    {
+      "mapa_level": 7,
+      "evidence_id": "explainability_objective",
+      "weight": 0.5,
+      "file": "tools\\mapa_audit.py",
+      "line": 139,
+      "anchor": "explain",
+      "snippet": "\"patterns\": [r\"explain\", r\"explainability\", r\"rationale\", r\"interpret\", r\"justification\"],"
+    },
+    {
+      "mapa_level": 7,
+      "evidence_id": "explainability_objective",
+      "weight": 0.5,
+      "file": "tools\\mapa_audit.py",
+      "line": 143,
+      "anchor": "explain",
+      "snippet": "\"patterns\": [r\"name:\\s*complexity\", r\"objective.*complexity\", r\"explainability.*objective\"],"
+    },
+    {
+      "mapa_level": 7,
+      "evidence_id": "explainability_objective",
+      "weight": 0.5,
+      "file": "tools\\mapa_audit.py",
+      "line": 138,
+      "anchor": "explainability",
+      "snippet": "{\"id\": \"explainability_objective\", \"weight\": 0.50,"
+    },
+    {
+      "mapa_level": 7,
+      "evidence_id": "objective_complexity",
+      "weight": 0.5,
+      "file": "plugins\\patternDiscoveryL2\\domain.yaml",
+      "line": 27,
+      "anchor": "name:\\s*complexity",
+      "snippet": "- {name: complexity, direction: min}"
+    },
+    {
+      "mapa_level": 7,
+      "evidence_id": "objective_complexity",
+      "weight": 0.5,
+      "file": "tools\\mapa_audit.py",
+      "line": 142,
+      "anchor": "objective.*complexity",
+      "snippet": "{\"id\": \"objective_complexity\", \"weight\": 0.50,"
+    },
+    {
+      "mapa_level": 7,
+      "evidence_id": "objective_complexity",
+      "weight": 0.5,
+      "file": "tools\\mapa_audit.py",
+      "line": 143,
+      "anchor": "objective.*complexity",
+      "snippet": "\"patterns\": [r\"name:\\s*complexity\", r\"objective.*complexity\", r\"explainability.*objective\"],"
+    },
+    {
+      "mapa_level": 7,
+      "evidence_id": "objective_complexity",
+      "weight": 0.5,
+      "file": "tools\\mapa_audit.py",
+      "line": 138,
+      "anchor": "explainability.*objective",
+      "snippet": "{\"id\": \"explainability_objective\", \"weight\": 0.50,"
+    },
+    {
+      "mapa_level": 7,
+      "evidence_id": "objective_complexity",
+      "weight": 0.5,
+      "file": "tools\\mapa_audit.py",
+      "line": 143,
+      "anchor": "explainability.*objective",
+      "snippet": "\"patterns\": [r\"name:\\s*complexity\", r\"objective.*complexity\", r\"explainability.*objective\"],"
+    },
+    {
+      "mapa_level": 8,
+      "evidence_id": "human_in_loop",
+      "weight": 0.6,
+      "file": "core\\decision_language\\ast.py",
+      "line": 28,
+      "anchor": "human",
+      "snippet": "Deterministic human-readable representation for hover/logs."
+    },
+    {
+      "mapa_level": 8,
+      "evidence_id": "human_in_loop",
+      "weight": 0.6,
+      "file": "core\\decision_language\\ast.py",
+      "line": 42,
+      "anchor": "human",
+      "snippet": "Leaf node: a human-defined policy with parameters."
+    },
+    {
+      "mapa_level": 8,
+      "evidence_id": "human_in_loop",
+      "weight": 0.6,
+      "file": "core\\decision_language\\registry.py",
+      "line": 10,
+      "anchor": "approve",
+      "snippet": "LanguageState = str  # \"draft\" | \"candidate\" | \"approved\" | \"deprecated\" | \"banned\""
+    },
+    {
+      "mapa_level": 8,
+      "evidence_id": "human_in_loop",
+      "weight": 0.6,
+      "file": "core\\optimizers\\nsga2.py",
+      "line": 67,
+      "anchor": "feedback",
+      "snippet": "- Para NSGA-II real hará falta feedback (tell). De momento genera población + offspring válidos."
+    },
+    {
+      "mapa_level": 8,
+      "evidence_id": "human_in_loop",
+      "weight": 0.6,
+      "file": "core\\optimizers\\nsga2.py",
+      "line": 259,
+      "anchor": "feedback",
+      "snippet": "Nota: NSGA-II real requiere feedback (tell). Aquí damos mínimo funcional AST-safe."
+    },
+    {
+      "mapa_level": 8,
+      "evidence_id": "human_in_loop",
+      "weight": 0.6,
+      "file": "core\\problem\\spec.py",
+      "line": 34,
+      "anchor": "human",
+      "snippet": "name: str                       # nombre humano"
+    },
+    {
+      "mapa_level": 8,
+      "evidence_id": "human_in_loop",
+      "weight": 0.6,
+      "file": "tools\\mapa_audit.py",
+      "line": 148,
+      "anchor": "human",
+      "snippet": "{\"id\": \"human_in_loop\", \"weight\": 0.60,"
+    },
+    {
+      "mapa_level": 8,
+      "evidence_id": "human_in_loop",
+      "weight": 0.6,
+      "file": "tools\\mapa_audit.py",
+      "line": 149,
+      "anchor": "human",
+      "snippet": "\"patterns\": [r\"human\", r\"approve\", r\"reject\", r\"feedback\", r\"shortlist\", r\"preference\"],"
+    },
+    {
+      "mapa_level": 8,
+      "evidence_id": "human_in_loop",
+      "weight": 0.6,
+      "file": "tools\\mapa_audit.py",
+      "line": 155,
+      "anchor": "human",
+      "snippet": "\"hint\": \"Falta interfaz (dashboard/UI) para interacción humana.\"},"
+    },
+    {
+      "mapa_level": 8,
+      "evidence_id": "human_in_loop",
+      "weight": 0.6,
+      "file": "tools\\mapa_audit.py",
+      "line": 149,
+      "anchor": "approve",
+      "snippet": "\"patterns\": [r\"human\", r\"approve\", r\"reject\", r\"feedback\", r\"shortlist\", r\"preference\"],"
+    },
+    {
+      "mapa_level": 8,
+      "evidence_id": "interactive_or_ui",
+      "weight": 0.4,
+      "file": "tools\\mapa_audit.py",
+      "line": 153,
+      "anchor": "dashboard",
+      "snippet": "\"patterns\": [r\"dashboard\", r\"\\bui\\b\", r\"streamlit\", r\"\\bdash\\b\", r\"gradio\", r\"webapp\"],"
+    },
+    {
+      "mapa_level": 8,
+      "evidence_id": "interactive_or_ui",
+      "weight": 0.4,
+      "file": "tools\\mapa_audit.py",
+      "line": 155,
+      "anchor": "dashboard",
+      "snippet": "\"hint\": \"Falta interfaz (dashboard/UI) para interacción humana.\"},"
+    },
+    {
+      "mapa_level": 8,
+      "evidence_id": "interactive_or_ui",
+      "weight": 0.4,
+      "file": "tools\\mapa_audit.py",
+      "line": 153,
+      "anchor": "streamlit",
+      "snippet": "\"patterns\": [r\"dashboard\", r\"\\bui\\b\", r\"streamlit\", r\"\\bdash\\b\", r\"gradio\", r\"webapp\"],"
+    },
+    {
+      "mapa_level": 8,
+      "evidence_id": "interactive_or_ui",
+      "weight": 0.4,
+      "file": "tools\\mapa_audit.py",
+      "line": 153,
+      "anchor": "gradio",
+      "snippet": "\"patterns\": [r\"dashboard\", r\"\\bui\\b\", r\"streamlit\", r\"\\bdash\\b\", r\"gradio\", r\"webapp\"],"
+    },
+    {
+      "mapa_level": 8,
+      "evidence_id": "interactive_or_ui",
+      "weight": 0.4,
+      "file": "tools\\mapa_audit.py",
+      "line": 153,
+      "anchor": "webapp",
+      "snippet": "\"patterns\": [r\"dashboard\", r\"\\bui\\b\", r\"streamlit\", r\"\\bdash\\b\", r\"gradio\", r\"webapp\"],"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "strong_identity",
+      "weight": 0.25,
+      "file": "core\\artifacts\\hash.py",
+      "line": 16,
+      "anchor": "sha256\\(",
+      "snippet": "return hashlib.sha256(s.encode(\"utf-8\")).hexdigest()"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "strong_identity",
+      "weight": 0.25,
+      "file": "core\\artifacts\\hash.py",
+      "line": 20,
+      "anchor": "sha256\\(",
+      "snippet": "return hashlib.sha256(b).hexdigest()"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "strong_identity",
+      "weight": 0.25,
+      "file": "core\\artifacts\\hash.py",
+      "line": 24,
+      "anchor": "sha256\\(",
+      "snippet": "h = hashlib.sha256()"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "strong_identity",
+      "weight": 0.25,
+      "file": "core\\artifacts\\store.py",
+      "line": 24,
+      "anchor": "params_hash",
+      "snippet": "def params_hash(self) -> str:"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "strong_identity",
+      "weight": 0.25,
+      "file": "core\\artifacts\\store.py",
+      "line": 33,
+      "anchor": "params_hash",
+      "snippet": "cache/<problem>/<dataset_id>/<name>/<version>/<params_hash>.pkl"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "strong_identity",
+      "weight": 0.25,
+      "file": "core\\artifacts\\store.py",
+      "line": 45,
+      "anchor": "params_hash",
+      "snippet": "/ f\"{key.params_hash()}.pkl\""
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "strong_identity",
+      "weight": 0.25,
+      "file": "core\\artifacts\\store.py",
+      "line": 19,
+      "anchor": "dataset_id",
+      "snippet": "dataset_id: str"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "strong_identity",
+      "weight": 0.25,
+      "file": "core\\artifacts\\store.py",
+      "line": 33,
+      "anchor": "dataset_id",
+      "snippet": "cache/<problem>/<dataset_id>/<name>/<version>/<params_hash>.pkl"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "strong_identity",
+      "weight": 0.25,
+      "file": "core\\artifacts\\store.py",
+      "line": 42,
+      "anchor": "dataset_id",
+      "snippet": "/ key.dataset_id"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "strong_identity",
+      "weight": 0.25,
+      "file": "core\\decision_language\\registry.py",
+      "line": 43,
+      "anchor": "dataset_id",
+      "snippet": "dataset_id=\"_global_\",          # lenguaje no depende de dataset"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "governance_gate_reason",
+      "weight": 0.2,
+      "file": "core\\contracts_decision_audit.py",
+      "line": 9,
+      "anchor": "BLOCKED_BY_",
+      "snippet": "BLOCKED_BY_SCHEDULE: Final[str] = \"BLOCKED_BY_SCHEDULE\""
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "governance_gate_reason",
+      "weight": 0.2,
+      "file": "core\\contracts_decision_audit.py",
+      "line": 7,
+      "anchor": "ALLOWED_",
+      "snippet": "ALLOWED_FIRE: Final[str] = \"ALLOWED_FIRE\""
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "governance_gate_reason",
+      "weight": 0.2,
+      "file": "core\\contracts_decision_audit.py",
+      "line": 8,
+      "anchor": "ALLOWED_",
+      "snippet": "ALLOWED_NOFIRE: Final[str] = \"ALLOWED_NOFIRE\""
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "governance_gate_reason",
+      "weight": 0.2,
+      "file": "core\\governance\\decision_schedule.py",
+      "line": 19,
+      "anchor": "DecisionScheduler",
+      "snippet": "class DecisionScheduler:"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "governance_gate_reason",
+      "weight": 0.2,
+      "file": "plugins\\inversionL2\\evaluator.py",
+      "line": 321,
+      "anchor": "reason_code",
+      "snippet": "\"reason_code\": reason,"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "governance_gate_reason",
+      "weight": 0.2,
+      "file": "plugins\\inversionL2\\evaluator.py",
+      "line": 311,
+      "anchor": "BLOCKED_BY_",
+      "snippet": "reason = \"BLOCKED_BY_SCHEDULE\""
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "governance_gate_reason",
+      "weight": 0.2,
+      "file": "plugins\\inversionL2\\evaluator.py",
+      "line": 313,
+      "anchor": "ALLOWED_",
+      "snippet": "reason = \"ALLOWED_FIRE\" if rs != 0.0 else \"ALLOWED_NOFIRE\""
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "governance_gate_reason",
+      "weight": 0.2,
+      "file": "plugins\\inversionL2\\evaluator.py",
+      "line": 12,
+      "anchor": "DecisionScheduler",
+      "snippet": "from core.governance.decision_schedule import DecisionScheduler, TimeGridSchedule, apply_decision_mode_tri"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "governance_gate_reason",
+      "weight": 0.2,
+      "file": "plugins\\inversionL2\\evaluator.py",
+      "line": 259,
+      "anchor": "DecisionScheduler",
+      "snippet": "scheduler = DecisionScheduler(schedule)"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "governance_gate_reason",
+      "weight": 0.2,
+      "file": "plugins\\inversionL2\\evaluator.py",
+      "line": 261,
+      "anchor": "\\.gate\\(",
+      "snippet": "gate = scheduler.gate(timestamps)"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "lifecycle_ops",
+      "weight": 0.15,
+      "file": "core\\contracts.py",
+      "line": 7,
+      "anchor": "\\bfrozen\\b",
+      "snippet": "@dataclass(frozen=True)"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "lifecycle_ops",
+      "weight": 0.15,
+      "file": "core\\contracts.py",
+      "line": 16,
+      "anchor": "\\bfrozen\\b",
+      "snippet": "@dataclass(frozen=True)"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "lifecycle_ops",
+      "weight": 0.15,
+      "file": "core\\utility.py",
+      "line": 6,
+      "anchor": "\\bfrozen\\b",
+      "snippet": "@dataclass(frozen=True)"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "lifecycle_ops",
+      "weight": 0.15,
+      "file": "core\\artifacts\\decision_event_logger.py",
+      "line": 17,
+      "anchor": "\\bfrozen\\b",
+      "snippet": "@dataclass(frozen=True)"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "lifecycle_ops",
+      "weight": 0.15,
+      "file": "core\\artifacts\\pattern_event_logger.py",
+      "line": 10,
+      "anchor": "\\bfrozen\\b",
+      "snippet": "@dataclass(frozen=True)"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "lifecycle_ops",
+      "weight": 0.15,
+      "file": "core\\artifacts\\store.py",
+      "line": 12,
+      "anchor": "\\bfrozen\\b",
+      "snippet": "@dataclass(frozen=True)"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "lifecycle_ops",
+      "weight": 0.15,
+      "file": "core\\decision_language\\ast.py",
+      "line": 14,
+      "anchor": "\\bfrozen\\b",
+      "snippet": "@dataclass(frozen=True)"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "lifecycle_ops",
+      "weight": 0.15,
+      "file": "core\\decision_language\\ast.py",
+      "line": 39,
+      "anchor": "\\bfrozen\\b",
+      "snippet": "@dataclass(frozen=True)"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "lifecycle_ops",
+      "weight": 0.15,
+      "file": "core\\decision_language\\ast.py",
+      "line": 69,
+      "anchor": "\\bfrozen\\b",
+      "snippet": "@dataclass(frozen=True)"
+    },
+    {
+      "mapa_level": 9,
+      "evidence_id": "lifecycle_ops",
+      "weight": 0.15,
+      "file": "core\\decision_language\\ast.py",
+      "line": 98,
+      "anchor": "\\bfrozen\\b",
+      "snippet": "@dataclass(frozen=True)"
+    }
+  ]
+}

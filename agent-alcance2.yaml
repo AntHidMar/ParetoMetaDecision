@@ -1,0 +1,129 @@
+# ======================================================
+# ParetoMetaDecision — Current State (Validated)
+# Single source of truth for "where we are now"
+# ======================================================
+
+project: ParetoMetaDecision
+date: 2026-01-12
+
+current_status:
+  phase: 1
+  phase_name: contrato_transversal_minimo
+  execution: stable
+  architecture:
+    core_domain_agnostic: true
+    plugin_architecture: true
+    params_model: dict_only
+  optimization_verified: true
+  deduplication_verified: true
+  determinism_verified: true
+  csv_loading: single_instance
+
+validated_checks:
+  - best_equals_max_utility
+  - metrics_consistency
+  - deterministic_reevaluation
+  - no_duplicate_params
+  - full_grid_coverage
+
+current_capabilities:
+  optimization: grid_search
+  evaluation: vectorized
+  parameters: dict_only
+  decision_language:
+    supported:
+      - simple_policies
+      - AND
+      - OR
+    current_limitations:
+      - composition_depth_limited
+      - not_n_ary_ast_yet
+  problem_interface:
+    location: core/problem/base.py
+    interface:
+      - name
+      - evaluate(params) -> metrics
+  plugin_investment:
+    factory: plugins/investment/problem_factory.py
+    data_loading: MarketData (single instance)
+    policy_building: build_policy
+    metrics: compute_metrics
+  verification:
+    runtime_checks: enabled
+    verify_function: verify_optimization
+
+current_search_space_example:
+  policy: absorption
+  theta: [0.02]
+  k: [2, 3]
+  horizon: [3, 5, 10]
+
+validated_best_result:
+  params:
+    policy: absorption
+    theta: 0.02
+    k: 2
+    horizon: 10
+  metrics:
+    mean_return: 0.07977
+    frequency: 0.3554
+    win_rate: 0.4468
+    n_trades: 1777
+  utility: 0.07977
+
+mapA_alignment:
+  achieved:
+    - level_4_multiobjective_infrastructure
+    - level_6_rule_language_foundation
+  next_targets:
+    - level_7_explainability_objective
+    - level_8_human_system_optimization
+    - level_9_meta_decision_and_governance_definition_only
+
+roadmap_phases:
+  - phase: 2
+    name: ast_n_ario
+    goal: soportar AND/OR con numero indeterminado de reglas
+    status: pending
+  - phase: 3
+    name: canonicalizacion_y_dedup
+    goal: firma canonica de AST y eliminacion de duplicados semanticos
+    status: pending
+  - phase: 4
+    name: parsimonia
+    goal: introducir complejidad (tree_size/depth) como objetivo
+    status: pending
+  - phase: 5
+    name: plugins_completos
+    goal: separar data, features, actions y evaluator por dominio
+    status: pending
+  - phase: 6
+    name: ast_universal_v2
+    goal: soportar var, const, num, cmp (sin atom)
+    status: pending
+  - phase: 7
+    name: abstencion_y_costes
+    goal: ACT / ABSTAIN / DEFER con modelo de costes explicito
+    status: pending
+  - phase: 8
+    name: gobernanza_minima
+    goal: auditoria, versionado, shadow_mode
+    status: pending
+  - phase: 9
+    name: gobernanza_operativa
+    goal: drift_detection, rollback_automatico
+    status: pending
+  - phase: 10
+    name: humano_en_el_bucle
+    goal: preferencias humanas y seleccion interactiva
+    status: pending
+  - phase: 11
+    name: segundo_dominio
+    goal: validar transversalidad con dominio no financiero
+    status: pending
+
+notes:
+  - sistema estable en todo momento
+  - escalado por fases funcionales pequeñas
+  - core blindado frente a dependencias de dominio
+  - listo para iniciar Fase 2 (AST n-ario)
