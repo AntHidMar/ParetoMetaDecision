@@ -60,6 +60,7 @@ datasets/
 *.pkl
 *.pickle
 *.pdf
+generar_arbol_jerarquia*py
 
 # ============================
 # Testing / scratch

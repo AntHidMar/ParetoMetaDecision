@@ -91,7 +91,6 @@ ParetoMetaDecision/
 │   │   ├── __init__.py
 │   │   ├── data_loader.py
 │   │   ├── dataset.yaml
-│   │   ├── domain copy.yaml
 │   │   ├── domain.yaml
 │   │   ├── evaluator.py
 │   │   └── problem_factory.py
@@ -104,13 +103,16 @@ ParetoMetaDecision/
 │   └── mapa_audit.py
 ├── generar_arbol_jerarquia.py
 ├── generar_arbol_jerarquia_detallado.py
-├── main copy.py
+├── jupyter_test.ipynb
+├── jupyter_test_governance.yaml
 ├── main.py
 ├── mapa_audit.json
 ├── mapa_audit_table.csv
 ├── pareto_live.html
 ├── project_context.md
-└── risk_benefit_live.html
+├── project_overview.md
+├── risk_benefit_live.html
+└── System_Jerarquy.png
 ```
 
 ## File Index (summaries)
@@ -169,14 +171,14 @@ ParetoMetaDecision/
 - `data\raw\MES_4.csv` (41254602 bytes)
 - `generar_arbol_jerarquia.py` (3746 bytes)
 - `generar_arbol_jerarquia_detallado.py` (17116 bytes)
-- `main copy.py` (5913 bytes)
+- `jupyter_test.ipynb` (1681164 bytes)
+- `jupyter_test_governance.yaml` (2066 bytes)
 - `mapa_audit.json` (87472 bytes)
 - `mapa_audit_table.csv` (0 bytes)
 - `pareto_live.html` (42224 bytes)
 - `plugins\inversionL2\__init__.py` (0 bytes)
 - `plugins\inversionL2\data_loader.py` (5111 bytes)
 - `plugins\inversionL2\dataset.yaml` (559 bytes)
-- `plugins\inversionL2\domain copy.yaml` (2609 bytes)
 - `plugins\inversionL2\domain.yaml` (2609 bytes)
 - `plugins\inversionL2\evaluator.py` (23192 bytes)
 - `plugins\inversionL2\policies\__init__.py` (0 bytes)
@@ -186,8 +188,10 @@ ParetoMetaDecision/
 - `plugins\patternDiscoveryL2\domain.yaml` (4127 bytes)
 - `plugins\patternDiscoveryL2\evaluator.py` (18156 bytes)
 - `plugins\patternDiscoveryL2\problem_factory.py` (2718 bytes)
-- `project_context.md` (168404 bytes)
+- `project_context.md` (167585 bytes)
+- `project_overview.md` (2603 bytes)
 - `risk_benefit_live.html` (42241 bytes)
+- `System_Jerarquy.png` (12730 bytes)
 - `tools\mapa_audit.py` (26263 bytes)
 
 ## File Details
@@ -3801,152 +3805,96 @@ def build_tree(root: Path, max_depth: int | None = None) -> str:
 def safe_read_text(path: Path, max_chars: int) -> str:
 ```
 
-### `main copy.py`
+### `jupyter_test.ipynb`
 
-**Imports:**
+### `jupyter_test_governance.yaml`
 
-- pandas as pd
-- from core.plotting import show_utility_diagram
-- from core.optimizer import optimize_parameters
-- from core.market_data import MarketData
-- from core.evaluator import compute_metrics
-- from plugins.investment.problem_factory import make_investment_problem
-- from core.problem import Problem
-- from plugins.inversionL2.problem_factory import make_problem as make_inversion
-- yaml
-- from core.utility import UtilitySpec
-- json
-- math
-
-**Functions:**
-
-- `load_yaml(path)`
-- `evaluate_single_configuration(problem, params)`
-- `verify_optimization(evaluated, best, problem, domain_cfg, pareto_axes)`
-- `main()`
+**YAML top keys (approx):** governance, experiment
 
 **Head snippet:**
 ```
-# main.py
-import pandas as pd
-from core.plotting import show_utility_diagram
-from core.optimizer import optimize_parameters
-from core.market_data import MarketData
-from core.evaluator import compute_metrics
-from plugins.investment.problem_factory import make_investment_problem
-from core.problem import Problem
-from plugins.inversionL2.problem_factory import make_problem as make_inversion
-import yaml
-from core.utility import UtilitySpec
-import json
-import math
+governance:
+  mode: "rules"        # rules | llm (más adelante)
+  objective: "maximize_profit_net_minimize_risk_exposure"
 
-def load_yaml(path: str) -> dict:
-    with open(path, "r", encoding="utf-8") as f:
-        return yaml.safe_load(f) or {}
+  # Métrica global para decidir "improved"
+  improvement:
+    key: "best_profit_net"
+    min_delta: 1.0e-6
 
-def evaluate_single_configuration(problem, params):
-    return problem.evaluate(params)
+  stagnation:
+    patience_rounds: 2
 
+  # Catálogo (allowlist) de acciones que la IA puede devolver
+  allowed_actions:
+    - "EXPLOIT"
+    - "EXPLORE"
+    - "EXPAND_LANGUAGE"
+    - "STOP"
 
-def verify_optimization(evaluated: list, best: dict, problem: Problem, domain_cfg: dict, pareto_axes: tuple) -> None:
+  # Qué funciones del lenguaje puede activar la IA
+  language:
+    allow_enable: ["SPREAD_LE"]
+    on_enable:
+      clear_caches: true
 
-    """
-    Verifica que la optimización está funcionando correctamente:
-      1) best maximiza utility
-      2) métricas presentes y no None / no NaN
-      3) re-eval determinista del best (coincidencia en mean_return/frequency)
-      4) no hay params duplicados evaluados (dedup efectivo)
-    Lanza AssertionError si algo falla.
-    """
-    
+  # Qué parámetros del algoritmo puede modificar la IA (con rangos)
+  algorithm:
+    allow_tune: ["POP","NGEN","CXPB","MUTPB","ETA_C","ETA_M","INDPB","RESEED_FRAC"]
+    limits:
+      POP:         [40, 400]
+      NGEN:        [10, 200]
+      CXPB:        [0.50, 0.95]
+      MUTPB:       [0.05, 0.60]
+      ETA_C:       [2.0, 30.0]
+      ETA_M:       [2.0, 40.0]
+      INDPB:       [0.02, 0.50]
+      RESEED_FRAC: [0.00, 0.70]
+    pop_cooldown_rounds: 3
 
-    # 1) best == max(utility)
-    utilities = [x.get("utility") for x in evaluated]
-    assert utilities, "evaluated está vacío"
-    assert best.get("utility") == max(utilities), "BEST no coincide con el máximo de utility"
-    print("OK(1): best == max(utility)")
+  stop:
+      max_stagnation_rounds: 10   # p.ej. parar si 6 rondas seguidas sin mejorar
 
-    # 2) Invariantes de métricas
-    required = tuple(domain_cfg.get("validation", {}).get("required_metrics", ["utility"]))
-    for i, x in enumerate(evaluated, start=1):
-        for k in required:
-            assert k in x, f"Falta '{k}' en evaluated[{i}]"
-            v = x[k]
-            assert v is not None, f"'{k}' es None en evaluated[{i}]"
-            if isinstance(v, float):
-                assert not math.isnan(v), f"'{k}' es NaN en evaluated[{i}]"
-    print("OK(2): métricas presentes y válidas")
+  # Reglas (en orden). La primera que cumpla se aplica.
+  rules:
+    - name: "stop_on_long_stagnation"
+      when:
+        stagnation_ge: 2
+      do:
+        action: "STOP"
+    - name: "expand_language_on_stagnation"
+      when:
+        stagnation_ge: 2
+        lang_func_disabled: "SPREAD_LE"
+      do:
+        action: "EXPAND_LANGUAGE"
+        enable_lang_funcs: ["SPREAD_LE"]
+        alg_patch:
+          MUTPB: 0.30
+          RESEED_FRAC: 0.30
+          NGEN: 70
 
-    # 3) Re-eval determinista best (sin recargar CSV)
-    assert "params" in best, "best no contiene 'params'"
-    assert "horizon" in best, "best no contiene 'horizon'"
+    - name: "exploit_on_improve"
+      when:
+        improved: true
+      do:
+        action: "EXPLOIT"
+        alg_patch:
+          MUTPB: 0.20
+          RESEED_FRAC: 0.05
+          NGEN: 60
 
-    re = evaluate_single_configuration(problem, best["params"])
-    print("RE-EVAL(best):", re)
-
-    stable = domain_cfg.get("validation", {}).get("stability_metrics", [])
-    for k in stable:
-        assert abs(float(re[k]) - float(best[k])) < 1e-9, f"{k} cambia en re-eval"
-
-
-    stable = domain_cfg.get("validation", {}).get("stability_metrics", [])
-    eps = float(domain_cfg.get("validation", {}).get("eps", 1e-9))
-
-    for k in stable:
-        assert k in re and k in best, f"Falta {k} en re-eval/best"
-        assert abs(float(re[k]) - float(best[k])) < eps, f"{k} cambia en re-eval"
-    print("OK(3): re-eval coincide (stable_metrics)")
-
-    # 4) No duplicados de params
-    sigs = [json.dumps(x["params"], sort_keys=True, ensure_ascii=False) for x in evaluated]
-    assert len(sigs) == len(set(sigs)), "Hay params duplicados evaluados (dedup no funciona o no está activo)"
-    print("OK(4): no hay duplicados en evaluated")
-
-    # 5) Tamaño de evaluación (info)
-    print(f"INFO: combinaciones evaluadas = {len(evaluated)}")
-
-
-def main():
-    csv_path = "data/raw/MES.csv"
-
-    # Cargar una sola vez (si tu plugin lo usa)
-    md = MarketData(csv_path)
-
-    domain_yaml = "plugins/inversionL2/domain.yaml"
-    domain_cfg = load_yaml(domain_yaml)
-
-    # Problem (plugin) para optimización
-    problem = make_inversion({"domain_yaml": domain_yaml})
-    assert problem is not None, "problem is None (factory not returning Problem)"
-
-    pareto_axes = tuple(domain_cfg.get("plot", {}).get("pareto_axes", ("utility", "utility")))
-
-    u = domain_cfg.get("utility", {}) or {}
-    utility_spec = UtilitySpec(
-        lambda_cost=float(u.get("lambda_cost", 0.0)),
-        lambda_risk=float(u.get("lambda_risk", 1.0)),
-    )
-
-    search_space = domain_cfg.get("search_space") or {}
-    assert search_space, "domain_cfg.search_space vacío (revisa plugins/inversionL2/domain.yaml)"
-
-    print("DEBUG problem =", problem)
-    print("DEBUG problem type =", type(problem))
-
-    # 1) OPTIMIZA (aquí se crea evaluated)
-    evaluated = optimize_parameters(
-        problem=problem,
-        search_space=search_space,
-        utility_spec=utility_spec,
-        pareto_axes=pareto_axes,
-    )
-    # Si optimize_parameters devuelve (evaluated, tracker), usa:
-    # evaluated, tracker = optimize_parameters(...)
-
-    assert evaluated, "No se evaluó ningún candidato."
-
-    # 2) BEST
+    - name: "explore_default"
+      when:
+        default: true
+      do:
+        action: "EXPLORE"
+        alg_patch:
+          MUTPB: 0.35
+          RESEED_FRAC: 0.25
+          NGEN: 70
+experiment:
+  seed_base: 123456
 ```
 
 ### `mapa_audit.json`
@@ -4333,120 +4281,6 @@ schema:
     - sizeL2
     - priceL1
     - sizeL1
-```
-
-### `plugins\inversionL2\domain copy.yaml`
-
-**YAML top keys (approx):** problem_id, name, factory, data, context, objectives, validation, utility, plot, search_space, decision_schedule, audit, debug, optimizer, decision_model
-
-**Head snippet:**
-```
-problem_id: inversionL2
-name: "Investment L2 Order Flow"
-factory: "plugins.inversionL2.problem_factory:make_problem"
-
-data:
-  dataset_yaml: "plugins/inversionL2/dataset.yaml"
-
-context:
-  # otros campos de contexto del plugin (no AST):
-  cost_model: "none"
-  regime: "all"
-
-objectives:
-  - {name: profit, direction: max}
-  - {name: risk, direction: min}
-  - {name: frequency, direction: max}
-
-validation:
-  required_metrics: ["profit", "risk", "frequency"]
-  stability_metrics: ["risk", "frequency"]
-  required_derived_metrics: ["utility"]
-  eps: 1e-9
-  reeval_repeats: 5
-  utility_tolerance_rel: 0.10
-
-utility:
-  lambda_risk: 0.1
-  lambda_frequency: 0.01   # prueba entre 0.01 y 0.2
-  lambda_cost: 0.0
-
-plot:
-  pareto_axes: ["profit", "risk"]  # tambien existe risk
-
-search_space:
-  rules: ["order_imbalance", "absorption"]
-  order_imbalance.theta: [0.001, 0.005, 0.01, 0.02]
-  order_imbalance.k: [1,2,3,4]
-  absorption.theta: [0.001, 0.005, 0.01, 0.02]
-  absorption.k: [1,2,3,4,5,6]
-  horizon: [1,2,3,4,5,10,20,30,40,50]
-  compose_ops: ["AND","OR"]
-   # --- NUEVO: gates transversales ---
-  gate.trend.enabled: [true, false]
-  gate.trend.n: [2,3,4,5,6,8]
-  gate.trend.strict: [true, false]
-
-  gate.sell.enabled: [true, false]
-  gate.sell.delta: [0.05, 0.10, 0.20, 0.25, 0.30]
-
-  gate.imbalance.enabled: true
-  gate.imbalance.delta: 0.25
-  gate.imbalance.mode: abs     # abs => |imb| >= delta
-
-decision_schedule:
-  type: time_grid
-  seconds: 180
-  mode: hold   # sample | hold
-
-audit:
-  decision_events:
-    enabled: true
-    mode: best_only   # all | best_only | top_k
-    top_k: 5          # solo si mode=top_k
-  pattern_events:
-    enabled: true
-debug:
-  schedule: false
-  dataset: false
-  gates: true
-
-optimizer:
-  id: grid   # grid | nsga2
-  params:
-    pop_size: 800
-    offspring_size: 800
-    max_generations: 50
-    tournament_k: 2
-    crossover_rate: 0.9
-    mutation_rate: 0.2
-    seed: 0
-
-    # MapA-7: límites lenguaje/estructura (si aplica)
-    max_depth: 4
-    max_nodes: 15
-
-  audit:
-    enabled: true
-    record_fields: [candidate_id, parent_ids, operator, generation, rng_digest]
-
-decision_model:
-  enabled: true
-  baseline: abstain   # baseline EV=0
-
-  # Coste fijo por disparo (fees+slippage). 0 si aún no lo modelas.
-  cost_per_signal: 0.0
-
-  # Cómo medir payoff desde datos
-  payoff:
-    type: forward_return
-    horizon_from_context: true   # usa context.horizon
-    success_label: "UP"
-    fail_label: "DOWN"
-
-  # Cómo resumir G/L
-  stats:
-    method: mean   # mean | median
 ```
 
 ### `plugins\inversionL2\domain.yaml`
@@ -5321,18 +5155,16 @@ ParetoMetaDecision/
 │   └── raw
 │       ├── MES.csv
 │       ├── MES_3.csv
-│       ├── MES_4.csv
-│       ├── NVDA.csv
-│       └── NVDA_2.csv
+│       └── MES_4.csv
 ├── plugins
 │   ├── inversionL2
 │   │   ├── policies
 │   │   │   ├── __init__.py
-│   │   │   ├── rule_1_vectorized.py
-│   │   │   └── rule_trendup_sellimbalance.py
+│   │   │   └── rule_1_vectorized.py
 │   │   ├── __init__.py
 │   │   ├── data_loader.py
 │   │   ├── dataset.yaml
+│   │   ├── domain copy.yaml
 │   │   ├── domain.yaml
 │   │   ├── evaluator.py
 │   │   └── problem_factory.py
@@ -5356,7 +5188,7 @@ ParetoMetaDecision/
 
 ## File Index (summaries)
 - `main.py` (13107 bytes)
-- `cache\audit\language_sentences\v1\summary.json` (48912 bytes)
+- `cache\audit\language_sentences\v1\summary.json` (161765 bytes)
 - `config\system.yaml` (181 bytes)
 - `core\__init__.py` (0 bytes)
 - `core\artifacts\__init__.py` (149 bytes)
@@ -5408,32 +5240,88 @@ ParetoMetaDecision/
 - `data\raw\MES.csv` (5077275 bytes)
 - `data\raw\MES_3.csv` (118605628 bytes)
 - `data\raw\MES_4.csv` (41254602 bytes)
-- `data\raw\NVDA.csv` (49266047 bytes)
-- `data\raw\NVDA_2.csv` (125363257 bytes)
 - `generar_arbol_jerarquia.py` (3746 bytes)
 - `generar_arbol_jerarquia_detallado.py` (17116 bytes)
 - `main copy.py` (5913 bytes)
 - `mapa_audit.json` (87472 bytes)
 - `mapa_audit_table.csv` (0 bytes)
-- `pareto_live.html` (59734 bytes)
+- `pareto_live.html` (42224 bytes)
 - `plugins\inversionL2\__init__.py` (0 bytes)
 - `plugins\inversionL2\data_loader.py` (5111 bytes)
-- `plugins\inversionL2\dataset.yaml` (561 bytes)
-- `plugins\inversionL2\domain.yaml` (2230 bytes)
-- `plugins\inversionL2\evaluator.py` (15932 bytes)
+- `plugins\inversionL2\dataset.yaml` (559 bytes)
+- `plugins\inversionL2\domain copy.yaml` (2609 bytes)
+- `plugins\inversionL2\domain.yaml` (2609 bytes)
+- `plugins\inversionL2\evaluator.py` (23192 bytes)
 - `plugins\inversionL2\policies\__init__.py` (0 bytes)
 - `plugins\inversionL2\policies\rule_1_vectorized.py` (1036 bytes)
-- `plugins\inversionL2\policies\rule_trendup_sellimbalance.py` (2625 bytes)
 - `plugins\inversionL2\problem_factory.py` (3417 bytes)
 - `plugins\patternDiscoveryL2\__init__.py` (0 bytes)
 - `plugins\patternDiscoveryL2\domain.yaml` (4127 bytes)
 - `plugins\patternDiscoveryL2\evaluator.py` (18156 bytes)
-- `plugins\patternDiscoveryL2\prob
+- `plugins\patternDiscoveryL2\problem_factory.py` (2718 bytes)
+- `project_context.md` (168404 bytes)
+- `risk_benefit_live.html` (42241 bytes)
+- `tools\mapa_audit.py` (26263 bytes)
+
+## File Details
+
 
 ... [TRUNCATED]
 ```
 
+### `project_overview.md`
+
+**Head snippet:**
+```
+# Project Overview: ParetoMetaDecision
+
+This project is a multi-objective optimization framework designed for "meta-decision" processes. It is currently implemented for financial investment strategies (order flow imbalance).
+
+## Architecture
+
+The system is highly modular, separating the optimization core from the domain-specific logic.
+
+```mermaid
+graph TD
+    Main[main.py] --> Loader[core.problem.loader]
+    Loader --> Plugin[plugins.inversionL2]
+    Main --> Optimizer[core.optimizer]
+    Optimizer --> Gen[core.generation]
+    Optimizer --> Plot[core.plotting]
+    Optimizer --> Store[core.artifacts.store]
+    Plugin --> Evaluator[plugins.inversionL2.evaluator]
+```
+
+## Key Components
+
+- **Core Optimizer**: Implements a two-phase optimization (grid/combinatorial followed by guided discovery). It finds the Pareto frontier of configurations based on multiple objectives (profit, risk, frequency).
+- **Problem Abstraction**: Each problem (e.g., InversionL2) is loaded via a factory specified in a YAML domain file.
+- **Decision Language (AST)**: Strategies are represented as trees of rules (Atoms) and combinators (AND, OR). This allows for complex, human-readable decision logic that can be audited.
+- **InversionL2 Plugin**:
+    - **Data Loading**: Processes high-frequency data (Level 2 order book).
+    - **Feature Engineering**: Calculates order imbalance across top-k price levels.
+    - **Strategy Evaluation**: Simulates trading signals, applying filters like time-grid schedules and trend gates.
+    - **Metrics**: Computes profit (mean return), risk (standard deviation), and frequency (market exposure).
+
+## Optimization Workflow
+
+1. **Initialization**: Loads `domain.yaml` and builds the `Problem` and `Optimizer`.
+2. **Phase 1 (Combinatorial)**: Explores a search space defined in YAML (e.g., grid search over parameters).
+3. **Phase 2 (Guided Discovery)**: Refines the search around the best candidates using local search or evolutionary techniques.
+4. **Pareto Evaluation**: Identifies configurations that offer the best trade-offs between objectives.
+5. **Validation**: Re-evaluates the best configuration multiple times to ensure stability and determinism.
+6. **Auditing**: Records per-second decision logs to `cache/audit/` for full transparency of why each trade was (or wasn't) made.
+
+## Key Files
+- `main.py`: Entry point and orchestration.
+- `core/optimizer.py`: Optimization heart.
+- `core/decision_language/ast.py`: Decision rule structure.
+- `plugins/inversionL2/evaluator.py`: Strategy simulation and financial calculation.
+```
+
 ### `risk_benefit_live.html`
+
+### `System_Jerarquy.png`
 
 ### `tools\mapa_audit.py`
 
